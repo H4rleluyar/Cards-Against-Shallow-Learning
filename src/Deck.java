@@ -5,12 +5,15 @@ public class Deck extends Card{
 	private int numOfCards; 				// number of cards in a deck
 	private ArrayList<Card> currentDeck; 	// stores a deck as an arraylist
 	
-	// constructor for Deck 
+	/*
+	 * @param array list of Cards called currentDeck
+	 */
 	public Deck(ArrayList<Card> currentDeck)
 	{
 		this.currentDeck = currentDeck; 
 		
 	}
+	
 	
 	// getter and setter for deck color (either white or black) 
 	public String getColor() { return color; }
