@@ -93,8 +93,8 @@ public class Table {
         panel.add("Default Deck", textBoxPanel);
         final DefaultComboBoxModel panelName = new DefaultComboBoxModel();
 
-        panelName.addElement("Button");
-        panelName.addElement("Default Deck");
+        panelName.addElement("Default Deck about Learning Science");
+        panelName.addElement("Custom Deck about Learning Science");
         final JComboBox listCombo = new JComboBox(panelName);
 
         listCombo.setSelectedIndex(0);
