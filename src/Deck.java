@@ -1,43 +1,29 @@
 import java.util.ArrayList;
 
-public class Deck extends Card{
-	private String color; 					// color of deck; white (center deck)  or black (questions) or green (player's hand)  
-	private int numOfCards; 				// number of cards in a deck
+public class Deck{
 	private ArrayList<Card> currentDeck; 	// stores a deck as an arraylist
-	
 	/*
 	 * @param array list of Cards called currentDeck
 	 */
-	public Deck(ArrayList<Card> currentDeck)
-	{
-		this.currentDeck = currentDeck; 
-		
+	public Deck(){
+		currentDeck = new ArrayList<>();
 	}
-	
-	
-	// getter and setter for deck color (either white or black) 
-	public String getColor() { return color; }
-	public void setColor(String newColor) { this.color = newColor; }
-	
 	
 	// setter and getter for number of cards in a deck
-	public int getNumOfCards() { return numOfCards; }
-	public void setNumOfCards(int numOfCards) { this.numOfCards = numOfCards;} 
+	public int getNumOfCards() { return currentDeck.size(); }
 	
-	// adds a card to the current Deck 
-	public void addCard(Card c) 
-	{
-		this.currentDeck.add(c);
-	}
+	// adds a card to the current Deck (one by one, or as a list)
+	public void addCard(Card c) { this.currentDeck.add(c); }
+	public void addCard(ArrayList<Card> cards) { currentDeck.addAll(cards); }
 	
 	// removes a card from the current Deck 
-	public void removeCard(int index)
-	{
-		this.currentDeck.remove(index);
+	public void removeCard(int index) { this.currentDeck.remove(index);}
+	
+	public String toString(){
+		String retStr = "";
+		for(int i = 0; i < currentDeck.size(); i++){
+			retStr += "   " + (i+1) + ".) " + currentDeck.get(i).line() + "\n";
+		}
+		return retStr;
 	}
-	
-	
-	
-	
-	
 }
