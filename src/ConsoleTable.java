@@ -7,6 +7,10 @@ public class ConsoleTable {
     Player[] playerArr = new Player[4];
     Deck whiteDeck = new Deck();
     Deck blackDeck = new Deck();
+    //first add player index, second add chosen card object
+    //e.g. want to add player 2 chose 4th card in Hand
+    //chosenCard.add(1); <-- player index
+    //chosenCard.add(playerArr[1].hand.get(3)); <-- followed by chosen card object
     ArrayList<Object> chosenCard = new ArrayList<Object>();
 
     boolean load(String fileDir){
