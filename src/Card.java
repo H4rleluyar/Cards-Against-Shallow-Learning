@@ -1,23 +1,38 @@
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Card {
+
     private static final int MAX_LINE_CHAR_NUM = 100;
-    private String line;
+    private String description = ""; //description and text of the card
     private boolean hidden = false;
     private boolean used = false;
 
-    public Card() { line = ""; }
-    public Card(String line) { this.line = line; }
+    public Card(){
+
+    }
+
+    public Card(String description) {
+        if(!setLine(description))
+            description = "";
+    }
+
+    //toString method in order to get card information
+    public String toString(){
+        return description;
+    }
 
     //accessor
-    public String line() { return line; }
+    public String line() { return description; }
     public boolean flipped() { return hidden; }
     public boolean used() { return used; }
 
     //mutator
-    public boolean setLine(String newLine) {
-        if(newLine.length() > MAX_LINE_CHAR_NUM)
+    public boolean setLine(String newDescription) {
+        if(newDescription.length() > MAX_LINE_CHAR_NUM)
             return false;
 
-        line = newLine;
+        description = newDescription;
         return true;
     }
 

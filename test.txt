@@ -1,4 +1,4 @@
-#Decks
+#Decks:
 #  B = black card, W = white card
 #  To add card
 #  B <card line>
@@ -12,3 +12,12 @@ W This is the first white card
 W this is the second
 W this is the third
 W this is the fourth
+
+B even
+W mixing
+B card color
+W works
+W for this
+B program
+
+WBBWBWBW

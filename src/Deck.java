@@ -11,6 +11,10 @@ public class Deck{
 	
 	// setter and getter for number of cards in a deck
 	public int getNumOfCards() { return currentDeck.size(); }
+
+	public ArrayList<Card> getCards(){
+		return (ArrayList<Card>) currentDeck.clone();
+	}
 	
 	// adds a card to the current Deck (one by one, or as a list)
 	public void addCard(Card c) { this.currentDeck.add(c); }

@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class ConsoleTable {
-    Player[] playerArr = new Player[4];
+    ArrayList<Player> players = new ArrayList<Player>();
     Deck whiteDeck = new Deck();
     Deck blackDeck = new Deck();
     //first add player index, second add chosen card object
@@ -55,5 +55,30 @@ public class ConsoleTable {
         retStr += "Black Deck Cards:\n";
         retStr += blackDeck.toString();
         return retStr;
+    }
+
+    boolean dealCards(){
+        //deck is large enough for each player to get atleast one card
+        if((whiteDeck.getNumOfCards() / players.size()) > 0){
+            int playerIndx = 0;
+            for(int i = 0; i < whiteDeck.getNumOfCards(); i++) {
+                players.get(playerIndx).grabCard(whiteDeck.getCards().get(i));
+                playerIndx++;
+                if(playerIndx > players.size() - 1)
+                    playerIndx = 0;
+                if(playerIndx == 0) {
+                    if(players.get(0).getHand().size() > 10)
+                        return true;
+                    else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
+                        return true;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    void addPlayers(Player p){
+        players.add(p);
     }
 }
