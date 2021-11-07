@@ -25,14 +25,12 @@ public class ConsoleTable {
                 if(!line.isEmpty()){
                     if(line.charAt(0) != '#') {
                         //black card
-                        if(line.charAt(0) == 'B'){
+                        if(line.split("\\s+")[0].equals("B")){
                             blackDeck.addCard(new Card(line.substring(2)));
-//                            System.out.println(line.substring(2));
                         }
                         //white card
-                        else if(line.charAt(0) == 'W'){
+                        else if(line.split("\\s+")[0].equals("W")){
                             whiteDeck.addCard(new Card(line.substring(2)));
-//                            System.out.println(line.substring(2));
                         }
                     }
                 }
