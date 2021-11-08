@@ -1,0 +1,22 @@
+#Decks:
+#  B = black card, W = white card
+#  To add card
+#  B <card line>
+#  W <card line>
+B This is the first black card
+B This is the second black card
+B This is the third black card
+B this custom card
+
+W This is the 1
+W this is the 2
+W this is the 3
+W this is the 4
+W this is the 5
+W this is the 6
+W this is the 7
+W this is the 8
+W this is the 9
+W this is the 10
+W this is the 11
+W this is the 12

@@ -1,3 +1,7 @@
 .idea/
 Team-Project.iml
 out/
+.settings/
+bin/
+.classpath
+.project
