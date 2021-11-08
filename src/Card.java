@@ -7,9 +7,6 @@ public class Card {
     private boolean hidden = false; // perhaps used for flipping over or revealing card
     private boolean used = false; //check if card is had already be used and puts them into discard pile
 
-    public Card(){}
-
-
     //make card object with it’s description
     public Card(String description) {
         //checks if card has a description

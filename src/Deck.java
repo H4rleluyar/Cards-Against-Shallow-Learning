@@ -19,6 +19,12 @@ public class Deck{
         return (ArrayList<Card>) currentDeck.clone();
     }
 
+    //use this to get cards from ArrayList, IMPORTANT For Display black method
+    public ArrayList<Card> getCard(){
+        return currentDeck;
+    }
+
+
     // adds a card to the current Deck (one by one, or as a list)
     public void addCard(Card c) { this.currentDeck.add(c); }
     public void addCard(ArrayList<Card> cards) { currentDeck.addAll(cards); }
@@ -40,4 +46,3 @@ public class Deck{
         Collections.shuffle(currentDeck, new Random()); }
 
 }
-

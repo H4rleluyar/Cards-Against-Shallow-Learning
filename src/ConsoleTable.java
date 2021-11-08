@@ -15,7 +15,7 @@ public class ConsoleTable {
     //chosenCard.add(playerArr[1].hand.get(3)); <-- followed by chosen card object
     ArrayList<Object> chosenCard = new ArrayList<Object>();
 
-    public ConsoleTable(){
+    public ConsoleTable() {
         players = new ArrayList<Player>(); //hold the amount of player that will play the game
         whiteDeck = new Deck(); //answers or funny descriptions
         blackDeck = new Deck(); //question or discussion prompts
@@ -23,40 +23,39 @@ public class ConsoleTable {
 
 
     // we make the deck by making a test.txt file which is then loaded into our program from this load function
-    boolean load(String fileDir){
+    boolean load(String fileDir) {
         File file = new File(fileDir);
         try {
             Scanner scan = new Scanner(file);
             String line;
             Card c;
-            while(scan.hasNextLine()){
+            while (scan.hasNextLine()) {
                 line = scan.nextLine();
                 //ignores empty and commented lines
-                if(!line.isEmpty()){
-                    if(line.charAt(0) != '#') {
+                if (!line.isEmpty()) {
+                    if (line.charAt(0) != '#') {
                         //black card
-                        if(line.split("\\s+")[0].equals("B")){
+                        if (line.split("\\s+")[0].equals("B")) {
                             blackDeck.addCard(new Card(line.substring(2)));
                         }
                         //white card
-                        else if(line.split("\\s+")[0].equals("W")){
+                        else if (line.split("\\s+")[0].equals("W")) {
                             whiteDeck.addCard(new Card(line.substring(2)));
                         }
                     }
                 }
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             //file not found
             return false;
         }
         return true;
     }
 
-    //select who gets to be the Czar for the first match of the game
-    public void selectCzar(){
-        Collections.shuffle(this.players);
-        this.players.get(0).setCzar(true);
+
+    //add Player object to the player’s arraylist
+    void addPlayers(Player p) {
+        players.add(p);
     }
 
     //used to check if our main method & code logic is working as intended, to test and see validity
@@ -74,9 +73,15 @@ public class ConsoleTable {
         return retStr;
     }
 
+    //select who gets to be the Czar for the first match of the game
+    public void selectCzar() {
+        Collections.shuffle(this.players);
+        this.players.get(0).setCzar(true);
+    }
+
     /*
-    Initially was void but now is boolean dealCards()
-    */
+Initially was void but now is boolean dealCards()
+*/
     boolean dealCards(){
         //deck is large enough for each player to get at least one card
         //checks if whitecard is empty or if there are any current players
@@ -92,7 +97,7 @@ public class ConsoleTable {
                 if(playerIndx > players.size() - 1)
                     playerIndx = 0;
                 if(playerIndx == 0) {
-//checking so that players do not get more than 10 cards
+                    //checking so that players do not get more than 10 cards
                     if(players.get(0).getHand().size() > 10)
                         return true;
                     else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
@@ -104,8 +109,15 @@ public class ConsoleTable {
         return false;
     }
 
-    //add Player object to the player’s arraylist
-    void addPlayers(Player p){
-        players.add(p);
+
+    //display 1 black card on the table
+    public void displayBlack() {
+        int index = 0; //start from the top of deck
+        if (blackDeck.getNumOfCards() > 0) { //check if deck is not empty
+            System.out.println(blackDeck.getCards().get(index)); //print the top black card to the table
+            blackDeck.getCard().remove(index); //remove the top black card of deck
+        } else { //no more cards left
+            System.out.println("There's no more black cards in the Deck!");
+        }
     }
 }
