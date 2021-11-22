@@ -87,65 +87,65 @@ public class Controller {
         return curCzerIndex;
     }
 
-    //select who gets to be the Czar for the first match of the game
-    public void selectCzar(){ //
-        Collections.shuffle(this.players);
-        this.players.get(0).setCzar(true);
-    }
+//     //select who gets to be the Czar for the first match of the game
+//     public void selectCzar(){ //
+//         Collections.shuffle(this.players);
+//         this.players.get(0).setCzar(true);
+//     }
 
-    //loads from txt file
-    boolean load(String fileDir, DeckModel whiteDeck, DeckModel blackDeck){
-        File file = new File(fileDir);
-        try {
-            Scanner scan = new Scanner(file);
-            String line;
-            CardModel c;
-            while(scan.hasNextLine()){
-                line = scan.nextLine();
-                //ignores empty and commented lines
-                if(!line.isEmpty()){
-                    if(line.charAt(0) != '#') {
-                        //black card
-                        if(line.split("\\s+")[0].equals("B")){
-                            blackDeck.addCard(new CardModel(line.substring(2)));
-                        }
-                        //white card
-                        else if(line.split("\\s+")[0].equals("W")){
-                            whiteDeck.addCard(new CardModel(line.substring(2)));
-                        }
-                    }
-                }
-            }
-        }
-        catch (FileNotFoundException e) {
-            //file not found
-            return false;
-        }
-        return true;
-    }
+//     //loads from txt file
+//     boolean load(String fileDir, DeckModel whiteDeck, DeckModel blackDeck){
+//         File file = new File(fileDir);
+//         try {
+//             Scanner scan = new Scanner(file);
+//             String line;
+//             CardModel c;
+//             while(scan.hasNextLine()){
+//                 line = scan.nextLine();
+//                 //ignores empty and commented lines
+//                 if(!line.isEmpty()){
+//                     if(line.charAt(0) != '#') {
+//                         //black card
+//                         if(line.split("\\s+")[0].equals("B")){
+//                             blackDeck.addCard(new CardModel(line.substring(2)));
+//                         }
+//                         //white card
+//                         else if(line.split("\\s+")[0].equals("W")){
+//                             whiteDeck.addCard(new CardModel(line.substring(2)));
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//         catch (FileNotFoundException e) {
+//             //file not found
+//             return false;
+//         }
+//         return true;
+//     }
 
-    boolean dealCards(){
-        //deck is large enough for each player to get atleast one card
-        if((whiteDeck.getNumOfCards() / players.size()) > 0){
-            int playerIndx = 0;
-            for(int i = 0; i < whiteDeck.getNumOfCards(); i++) {
-                players.get(playerIndx).grabCard(i);
-                playerIndx++;
-                if(playerIndx > players.size() - 1)
-                    playerIndx = 0;
-                if(playerIndx == 0) {
-                    if(players.get(0).getHand().size() > 10)
-                        return true;
-                    else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
-                        return true;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
+//     boolean dealCards(){
+//         //deck is large enough for each player to get atleast one card
+//         if((whiteDeck.getNumOfCards() / players.size()) > 0){
+//             int playerIndx = 0;
+//             for(int i = 0; i < whiteDeck.getNumOfCards(); i++) {
+//                 players.get(playerIndx).grabCard(i);
+//                 playerIndx++;
+//                 if(playerIndx > players.size() - 1)
+//                     playerIndx = 0;
+//                 if(playerIndx == 0) {
+//                     if(players.get(0).getHand().size() > 10)
+//                         return true;
+//                     else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
+//                         return true;
+//                 }
+//             }
+//             return true;
+//         }
+//         return false;
+//     }
 
-    void addPlayers(PlayerModel p){
-        players.add(p);
-    }
+//     void addPlayers(PlayerModel p){
+//         players.add(p);
+//     }
 }
