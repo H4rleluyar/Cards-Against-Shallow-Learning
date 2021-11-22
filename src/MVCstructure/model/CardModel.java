@@ -1,18 +1,20 @@
+package MVCstructure.model;
+
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Card {
+public class CardModel {
 
     private static final int MAX_LINE_CHAR_NUM = 100;
     private String description = ""; //description and text of the card
     private boolean hidden = false;
     private boolean used = false;
 
-    public Card(){
+    public CardModel(){
 
     }
 
-    public Card(String description) {
+    public CardModel(String description) {
         if(!setLine(description))
             description = "";
     }
