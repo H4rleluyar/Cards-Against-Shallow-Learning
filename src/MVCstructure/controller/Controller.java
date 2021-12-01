@@ -103,6 +103,7 @@ public class Controller {
                 }
 
             else if(message.getClass() == AddScoreMessage.class){
+                    AddScoreMessage addScoreMessage = (AddScoreMessage) message;
 
             }
         }
@@ -118,6 +119,12 @@ public class Controller {
                 curPlayerIndex = 0;
         }
         return curPlayerIndex;
+    }
+
+    public void updatePlayerScore(){
+        if(players.size() > 0){
+
+        }
     }
 
     private int updateCurCzer(){

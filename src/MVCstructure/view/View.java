@@ -128,7 +128,9 @@ public class View extends JFrame {
         playerScoreBoard.setBounds(20, 410, 220, 150);
         this.add(playerScoreBoard);
 
-        addScoreButton = new JButton("AddScoreHere"); //not sure why button isn't working
+        addScoreButton = new JButton("Add Score"); //not sure why button isn't working
+        addScoreButton.setBounds(70, 410, 100, 20);
+        this.add(addScoreButton);
         addScoreButton.addActionListener(e -> {
             JLabel score = new JLabel("0");
             int scoreHere = Integer.parseInt(score.getText());
