@@ -101,6 +101,10 @@ public class Controller {
                     }
 //                view.updateHand(cardMessage);
                 }
+
+            else if(message.getClass() == AddScoreMessage.class){
+
+            }
         }
     }
 

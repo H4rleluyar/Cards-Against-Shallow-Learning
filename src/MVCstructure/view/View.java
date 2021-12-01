@@ -17,6 +17,7 @@ public class View extends JFrame {
     JLabel titleLabel; //The title of the Game
     JLabel playerLabel; //player name
     JLabel fileDirLabel;
+    JLabel score; //score for the player
 
     JTextField playerNameTextField;
     JTextField fileDirTextField;
@@ -24,9 +25,11 @@ public class View extends JFrame {
     JButton addPlayerButton;
     JButton loadFileButton;
     JButton startGameButton;
+    JButton addScoreButton; // button to add score
     ArrayList<JButton> handButtonArr;
 
-    JTextArea playerScoreBoard;
+
+    JTextArea playerScoreBoard;  //the player's scoreBoard
     JTextArea currCzarTextArea; //display who's the current czar
     JTextArea blackCardTextArea; //display black Card
     ArrayList<JTextArea> chosenCardsTextAreaArr;
@@ -59,17 +62,19 @@ public class View extends JFrame {
         this.add(playerLabel);
 
         playerNameTextField = new JTextField();
-        playerNameTextField.setBounds(410,60,160,20);
+        playerNameTextField.setBounds(410, 60, 160, 20);
         playerNameTextField.setDocument(new JTextFieldLimit(15));
         this.add(playerNameTextField);
 
         addPlayerButton = new JButton("Add Player");
-        addPlayerButton.setBounds(580,60,100,20);
+        addPlayerButton.setBounds(580, 60, 100, 20);
         this.add(addPlayerButton);
-        addPlayerButton.addActionListener(e->{
-            String name = playerNameTextField.getText();
 
-            try{
+        //addPlayerButton function here
+        addPlayerButton.addActionListener(e -> {
+            String name = playerNameTextField.getText(); //get the name base on whatever was enter in textfield
+
+            try {
                 Message msg = new AddPlayerMessage(name);
                 queue.put(msg);
             } catch (InterruptedException exception) {
@@ -78,18 +83,18 @@ public class View extends JFrame {
         });
 
         fileDirLabel = new JLabel("Enter File directory:");
-        fileDirLabel.setBounds(280,90,150,20);
+        fileDirLabel.setBounds(280, 90, 150, 20);
         this.add(fileDirLabel);
 
         fileDirTextField = new JTextField();
-        fileDirTextField.setBounds(410,90,160,20);
+        fileDirTextField.setBounds(410, 90, 160, 20);
         this.add(fileDirTextField);
 
         loadFileButton = new JButton("Load file");
-        loadFileButton.setBounds(580,90,100,20);
+        loadFileButton.setBounds(580, 90, 100, 20);
         this.add(loadFileButton);
-        loadFileButton.addActionListener(e->{
-            try{
+        loadFileButton.addActionListener(e -> {
+            try {
                 Message msg = new LoadFileMessage(fileDirTextField.getText());
                 queue.put(msg);
             } catch (InterruptedException exception) {
@@ -98,11 +103,11 @@ public class View extends JFrame {
         });
 
         startGameButton = new JButton("Start Game");
-        startGameButton.setBounds(700,60,100,50);
+        startGameButton.setBounds(700, 60, 100, 50);
         startGameButton.setEnabled(false);
         this.add(startGameButton);
-        startGameButton.addActionListener(e->{
-            try{
+        startGameButton.addActionListener(e -> {
+            try {
                 Message msg = new StartGameMessage();
                 queue.put(msg);
             } catch (InterruptedException exception) {
@@ -113,13 +118,26 @@ public class View extends JFrame {
         /*
         Show Player Score board
          */
+
+
         playerScoreBoard = new JTextArea();
         playerScoreBoard.setEditable(false);
         playerScoreBoard.setOpaque(false);
         font = new Font("SansSerif", Font.BOLD, 12);
         playerScoreBoard.setFont(font);
-        playerScoreBoard.setBounds(20,410,220, 150);
+        playerScoreBoard.setBounds(20, 410, 220, 150);
         this.add(playerScoreBoard);
+
+        addScoreButton.addActionListener(e -> {
+            JLabel score = new JLabel("0");
+            int scoreHere = Integer.parseInt(score.getText());
+            try {
+                Message msg = new AddScoreMessage(scoreHere);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
 
         /*
          *Show current Czar
@@ -153,7 +171,7 @@ public class View extends JFrame {
         /*
          *Show Hand
          * */
-        for (int i = 0 ; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             handTextAreaArr.add(new JTextArea("Default hand card"));
             handTextAreaArr.get(i).setWrapStyleWord(true);
             handTextAreaArr.get(i).setLineWrap(true);
@@ -170,7 +188,7 @@ public class View extends JFrame {
 
         for (int i = 0; i < 5; i++) {
             handButtonArr.add(new JButton("Choose this card"));
-            handButtonArr.get(i).setBounds(280 + 200*i, 650, 160, 20);
+            handButtonArr.get(i).setBounds(280 + 200 * i, 650, 160, 20);
             handButtonArr.get(i).setVisible(false);
             this.add(handButtonArr.get(i));
         }
@@ -178,9 +196,9 @@ public class View extends JFrame {
         /*
         Button Action Listener
          */
-        handButtonArr.get(0).addActionListener(e->{
+        handButtonArr.get(0).addActionListener(e -> {
             System.out.println(0 + "pressed");
-            try{
+            try {
                 Message msg = new ChoseFromHandMessage(0);
                 queue.put(msg);
             } catch (InterruptedException exception) {
@@ -188,36 +206,36 @@ public class View extends JFrame {
             }
         });
 
-        handButtonArr.get(1).addActionListener(e->{
+        handButtonArr.get(1).addActionListener(e -> {
             System.out.println(1 + "pressed");
-            try{
+            try {
                 Message msg = new ChoseFromHandMessage(1);
                 queue.put(msg);
             } catch (InterruptedException exception) {
                 //do nothing
             }
         });
-        handButtonArr.get(2).addActionListener(e->{
+        handButtonArr.get(2).addActionListener(e -> {
             System.out.println(2 + "pressed");
-            try{
+            try {
                 Message msg = new ChoseFromHandMessage(2);
                 queue.put(msg);
             } catch (InterruptedException exception) {
                 //do nothing
             }
         });
-        handButtonArr.get(3).addActionListener(e->{
+        handButtonArr.get(3).addActionListener(e -> {
             System.out.println(3 + "pressed");
-            try{
+            try {
                 Message msg = new ChoseFromHandMessage(3);
                 queue.put(msg);
             } catch (InterruptedException exception) {
                 //do nothing
             }
         });
-        handButtonArr.get(4).addActionListener(e->{
+        handButtonArr.get(4).addActionListener(e -> {
             System.out.println(4 + "pressed");
-            try{
+            try {
                 Message msg = new ChoseFromHandMessage(4);
                 queue.put(msg);
             } catch (InterruptedException exception) {
@@ -228,7 +246,7 @@ public class View extends JFrame {
         /*
          *Show Chosen
          * */
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             chosenCardsTextAreaArr.add(new JTextArea("This is one of the Card's description, this chosen card test"));
             chosenCardsTextAreaArr.get(i).setWrapStyleWord(true);
             chosenCardsTextAreaArr.get(i).setLineWrap(true);
@@ -238,7 +256,7 @@ public class View extends JFrame {
             chosenCardsTextAreaArr.get(i).setFont(font);
             chosenCardsTextAreaArr.get(i).setForeground(Color.black);
             //40 pixels from black card
-            chosenCardsTextAreaArr.get(i).setBounds(270 + 200*i, 130, 180, 250);
+            chosenCardsTextAreaArr.get(i).setBounds(270 + 200 * i, 130, 180, 250);
             chosenCardsTextAreaArr.get(i).setVisible(false);
             this.add(chosenCardsTextAreaArr.get(i));
         }
@@ -248,58 +266,73 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void updatePlayersInView(ArrayList<String> nameList){
+    public void updatePlayersInView(ArrayList<String> nameList) {
         playerNameTextField.setText("");
         String scoreBoardStr = "";
-        for(String name : nameList){
+        for (String name : nameList) {
             scoreBoardStr += name + "\n";
             scoreBoardStr += "--------------------\n";
         }
         playerScoreBoard.setText(scoreBoardStr);
     }
 
-    public void disableAddPlayerInView() { addPlayerButton.setEnabled(false); playerNameTextField.setEnabled(false);}
+    public void disableAddPlayerInView() {
+        addPlayerButton.setEnabled(false);
+        playerNameTextField.setEnabled(false);
+    }
 
-    public void disableLoadFileButtonInView() { loadFileButton.setEnabled(false); fileDirTextField.setEnabled(false);}
+    public void disableLoadFileButtonInView() {
+        loadFileButton.setEnabled(false);
+        fileDirTextField.setEnabled(false);
+    }
 
-    public void enableStartGameInView() { startGameButton.setEnabled(true); }
+    public void enableStartGameInView() {
+        startGameButton.setEnabled(true);
+    }
 
-    public void startAGameInView(String currentCzarName, String blackCardDescription, ArrayList<String> handArr){
+    public void startAGameInView(String currentCzarName, String blackCardDescription, ArrayList<String> handArr) {
         System.out.println("started");
-        currCzarTextArea.setText(currentCzarName+"\nis the Czar");
+        currCzarTextArea.setText(currentCzarName + "\nis the Czar");
         currCzarTextArea.setVisible(true);
         blackCardTextArea.setText(blackCardDescription);
         blackCardTextArea.setVisible(true);
         updateHandInView(handArr);
     }
-    public void updateHandInView(ArrayList<String> handArr){
-        for(int i = 0; i < 5; i++) {
+
+    public void updateHandInView(ArrayList<String> handArr) {
+        for (int i = 0; i < 5; i++) {
             handTextAreaArr.get(i).setVisible(false);
             handButtonArr.get(i).setVisible(false);
         }
 
-        for(int i = 0; i < handArr.size(); i++){
+        for (int i = 0; i < handArr.size(); i++) {
             handTextAreaArr.get(i).setText(handArr.get(i));
             handTextAreaArr.get(i).setVisible(true);
             handButtonArr.get(i).setVisible(true);
         }
     }
 
-    public void updateChosenCardInView(ArrayList<String> chosenArr){
-        for(int i = 0; i < chosenCardsTextAreaArr.size(); i++)
+    public void updateChosenCardInView(ArrayList<String> chosenArr) {
+        for (int i = 0; i < chosenCardsTextAreaArr.size(); i++)
             chosenCardsTextAreaArr.get(i).setVisible(false);
 
-        for(int i = 0; i < chosenArr.size(); i++){
+        for (int i = 0; i < chosenArr.size(); i++) {
             chosenCardsTextAreaArr.get(i).setText(chosenArr.get(i));
             chosenCardsTextAreaArr.get(i).setVisible(true);
         }
     }
 
-    public void disableHandButtonsInView(){
-        for(int i = 0; i < 5; i++){
+    public void disableHandButtonsInView() {
+        for (int i = 0; i < 5; i++) {
             handButtonArr.get(i).setEnabled(false);
         }
     }
+
+    public void addScoreMessage(){
+
+    }
+
+
 }
 
 class JTextFieldLimit extends PlainDocument {
