@@ -17,13 +17,13 @@ public class Controller {
     BlockingQueue<Message> queue;
     View view;
 
-    DeckModel whiteDeck;
-    DeckModel blackDeck;
-    ArrayList<PlayerModel> players = new ArrayList<>();
+    DeckModel whiteDeck; //will be used to store the Arraylist of White Cards that will be loaded from load method
+    DeckModel blackDeck; //will be used to store the Arraylist of Black Cards that will be loaded from load method
+    ArrayList<PlayerModel> players = new ArrayList<>(); //array list the store the players who are playing the game
     ArrayList<Integer> chosenCardIndex = new ArrayList<>(); //index in whiteDeck
 
-    int curCzerIndex = 0;
-    int curPlayerIndex = 1;
+    int curCzerIndex = 0;    // index to keep track of who is the czar
+    int curPlayerIndex = 1; // index to keep track of each player, example index 1 is player 1 and index 2 is player 2
 
     public Controller(BlockingQueue<Message> queue, DeckModel whiteDeck, DeckModel blackDeck, View view){
         this.queue = queue;
@@ -70,10 +70,10 @@ public class Controller {
                 view.disableLoadFileButtonInView();
             }
             else if(message.getClass() == StartGameMessage.class){
-                if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty())
-                    load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);
-                dealCards();
-                ArrayList<String> curPlayerHand = new ArrayList<String>();
+                if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty()) //check to make sure the whiteDeck and blackDeck is empty before loading in the txt file with cord information into the deck
+                    load(DEFAULT_FILE_DIR, whiteDeck, blackDeck); // load the cards from txt into the whiteDeck and blackDeck
+                dealCards();  //call this method to give players' cards from the Deck
+                ArrayList<String> curPlayerHand = new ArrayList<String>(); //The player's hand that store string information
                 for(int index : players.get(curPlayerIndex).getHand())
                     curPlayerHand.add(whiteDeck.getCards().get(index).toString());
                 view.startAGameInView(players.get(curCzerIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
@@ -129,8 +129,10 @@ public class Controller {
         this.players.get(0).setCzar(true);
     }
 
-    //loads from txt file
-    boolean load(String fileDir, DeckModel whiteDeck, DeckModel blackDeck){
+    /*
+     /first param is the file with card information, second and third param is the location of where we will store the white or black card respectively
+     */
+    public boolean load(String fileDir, DeckModel whiteDeck, DeckModel blackDeck){
         File file = new File(fileDir);
         try {
             Scanner scan = new Scanner(file);
@@ -160,17 +162,22 @@ public class Controller {
         return true;
     }
 
-    boolean dealCards(){
-        //deck is large enough for each player to get atleast one card
-        if((whiteDeck.getNumOfCards() / players.size()) > 0){
-            int playerIndx = 0;
-            for(int i = 0; i < whiteDeck.getNumOfCards(); i++) {
-                players.get(playerIndx).grabCard(i);
-                playerIndx++;
-                if(playerIndx > players.size() - 1)
+    //use this method to give players' cards from the Deck
+    public boolean dealCards(){
+        //check deck is large enough for each player to get atleast one card
+        if((whiteDeck.getNumOfCards() / players.size()) > 0){ //check if the white card and player size is more than 0 before this method can run
+            int playerIndx = 0; //starting at index 0
+            for(int i = 0; i < whiteDeck.getNumOfCards(); i++) { //keeps running until the deck is empty
+
+                //possilby have a deck shuffle here??? Ill ask henry L tmr
+
+                players.get(playerIndx).grabCard(i); //get the card at whitedeck's index 1
+                playerIndx++;  //next card at whitedeck's index 2
+                if(playerIndx > players.size() - 1) //reset to player index so first player can get card at index 5, assuming there is 4 players and each players have card 1,2 ,3 ,4 (respectively)
                     playerIndx = 0;
+
                 if(playerIndx == 0) {
-                    if(players.get(0).getHand().size() > 10)
+                    if(players.get(0).getHand().size() > 10) //check if player has more than 10 cards
                         return true;
                     else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
                         return true;
@@ -179,5 +186,10 @@ public class Controller {
             return true;
         }
         return false;
+    }
+
+    //get an arraylist of players
+    public ArrayList<PlayerModel> getPlayers(){
+        return players;
     }
 }
