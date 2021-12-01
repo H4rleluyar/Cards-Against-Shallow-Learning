@@ -8,4 +8,6 @@ public class AddPlayerMessage implements Message{
     }
 
     public String getName(){ return name; }
+
+
 }

@@ -60,6 +60,8 @@ public class TestMethods {
 
     @Test
     public void testLoadDeckTest(){ //testing load method in controller class
+
+        //manual deck base on the defaultDeck.txt file we have
         CardModel testing1 = new CardModel("This is the first white card");
         CardModel testing2 = new CardModel("this is the second white card");
         CardModel testing3 = new CardModel("this is the third white card");
@@ -74,11 +76,9 @@ public class TestMethods {
         whiteDeck2.addCard(testing5);
         whiteDeck2.addCard(testing6);
         whiteDeck2.addCard(testing7);
-        //manual deck base on the defaultDeck.txt file we have
 
-        controller.load(DEFAULT_FILE_DIR1, whiteDeck, blackDeck);
-       // System.out.println(whiteDeck.getCards().toString()); testing in console
-        // System.out.println(whiteDeck2.getCards().toString()); testing in console
+
+        controller.load(DEFAULT_FILE_DIR1, whiteDeck, blackDeck); //load method that make things easier
 
         assertEquals(whiteDeck.getCards().toString(),whiteDeck2.getCards().toString()); //check if both are the same
 
