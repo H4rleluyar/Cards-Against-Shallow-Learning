@@ -17,6 +17,7 @@ public class View extends JFrame {
     JLabel titleLabel; //The title of the Game
     JLabel playerLabel; //player name
     JLabel fileDirLabel;
+    JLabel curPlayer;
 
     JTextField playerNameTextField;
     JTextField fileDirTextField;
@@ -24,7 +25,9 @@ public class View extends JFrame {
     JButton addPlayerButton;
     JButton loadFileButton;
     JButton startGameButton;
+    JButton nextPlayerButton;
     ArrayList<JButton> handButtonArr;
+    ArrayList<JButton> chosenButtonArr;
 
     JTextArea playerScoreBoard;
     JTextArea currCzarTextArea; //display who's the current czar
@@ -39,6 +42,7 @@ public class View extends JFrame {
         this.setSize(1280, 720);
         this.setLayout(null);
         handButtonArr = new ArrayList<>();
+        chosenButtonArr = new ArrayList<>();
         chosenCardsTextAreaArr = new ArrayList<>();
         handTextAreaArr = new ArrayList<>();
 
@@ -122,6 +126,32 @@ public class View extends JFrame {
         this.add(playerScoreBoard);
 
         /*
+        Show current player
+         */
+        curPlayer = new JLabel();
+        curPlayer.setBounds(20,570, 220, 30);
+        curPlayer.setVisible(false);
+        this.add(curPlayer);
+
+        /*
+        Show nextPlayer Button
+         */
+        nextPlayerButton = new JButton("Next Player");
+        nextPlayerButton.setEnabled(false);
+        nextPlayerButton.setVisible(false);
+        nextPlayerButton.setBounds(40, 620, 160,50);
+        this.add(nextPlayerButton);
+        nextPlayerButton.addActionListener(e->{
+            nextPlayerButton.setEnabled(false);
+            try{
+                Message msg = new DoNextPlayer();
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
+        /*
          *Show current Czar
          * */
         currCzarTextArea = new JTextArea(" <Player's Name>\n is the Czar");
@@ -173,6 +203,11 @@ public class View extends JFrame {
             handButtonArr.get(i).setBounds(280 + 200*i, 650, 160, 20);
             handButtonArr.get(i).setVisible(false);
             this.add(handButtonArr.get(i));
+
+            chosenButtonArr.add(new JButton("Choose this card"));
+            chosenButtonArr.get(i).setBounds(280 + 200*i, 385, 160, 20);
+            chosenButtonArr.get(i).setVisible(false);
+            this.add(chosenButtonArr.get(i));
         }
 
         /*
@@ -248,12 +283,12 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void updatePlayersInView(ArrayList<String> nameList){
+    public void updatePlayersInView(ArrayList<String> nameList, ArrayList<Integer> score){
         playerNameTextField.setText("");
-        String scoreBoardStr = "";
-        for(String name : nameList){
-            scoreBoardStr += name + "\n";
-            scoreBoardStr += "--------------------\n";
+        String scoreBoardStr = "------Score Board------\n";
+        for(int i = 0; i < nameList.size(); i++){
+            scoreBoardStr += nameList.get(i) + " | " + score.get(i) + "\n";
+            scoreBoardStr += "---------------------\n";
         }
         playerScoreBoard.setText(scoreBoardStr);
     }
@@ -264,12 +299,22 @@ public class View extends JFrame {
 
     public void enableStartGameInView() { startGameButton.setEnabled(true); }
 
-    public void startAGameInView(String currentCzarName, String blackCardDescription, ArrayList<String> handArr){
+    public void startAGameInView(String currentPlayer, String currentCzarName, String blackCardDescription, ArrayList<String> handArr){
         System.out.println("started");
         currCzarTextArea.setText(currentCzarName+"\nis the Czar");
         currCzarTextArea.setVisible(true);
         blackCardTextArea.setText(blackCardDescription);
         blackCardTextArea.setVisible(true);
+        nextPlayerButton.setVisible(true);
+        curPlayer.setVisible(true);
+
+        startGameButton.setEnabled(false);
+        addPlayerButton.setEnabled(false);
+        playerNameTextField.setEnabled(false);
+        fileDirTextField.setEnabled(false);
+        loadFileButton.setEnabled(false);
+
+        curPlayer.setText(currentPlayer);
         updateHandInView(handArr);
     }
     public void updateHandInView(ArrayList<String> handArr){
@@ -285,6 +330,10 @@ public class View extends JFrame {
         }
     }
 
+    public void updateBlackCardInView(String cardDescription){ blackCardTextArea.setText(cardDescription);}
+
+    public void updateCzarInView(String name){currCzarTextArea.setText(name+"\nis the Czar");}
+
     public void updateChosenCardInView(ArrayList<String> chosenArr){
         for(int i = 0; i < chosenCardsTextAreaArr.size(); i++)
             chosenCardsTextAreaArr.get(i).setVisible(false);
@@ -293,11 +342,32 @@ public class View extends JFrame {
             chosenCardsTextAreaArr.get(i).setText(chosenArr.get(i));
             chosenCardsTextAreaArr.get(i).setVisible(true);
         }
+
+        nextPlayerButton.setEnabled(true);
     }
 
     public void disableHandButtonsInView(){
         for(int i = 0; i < 5; i++){
             handButtonArr.get(i).setEnabled(false);
+        }
+    }
+
+    public void enableHandButtonsInView(){
+        for(int i = 0; i < 5; i++){
+            handButtonArr.get(i).setEnabled(true);
+        }
+    }
+
+    public void hideChosenButtonsInView(){
+        for(int i = 0; i < 5; i++){
+            chosenButtonArr.get(i).setVisible(false);
+        }
+    }
+
+    public void showChosenButtonsInView(){
+        for(int i = 0; i < 5; i++){
+            if(chosenCardsTextAreaArr.get(i).isVisible())
+                chosenButtonArr.get(i).setVisible(true);
         }
     }
 }

@@ -24,6 +24,7 @@ public class Controller {
 
     int curCzerIndex = 0;
     int curPlayerIndex = 1;
+    int lastCardDelt = 0;
 
     public Controller(BlockingQueue<Message> queue, DeckModel whiteDeck, DeckModel blackDeck, View view){
         this.queue = queue;
@@ -34,7 +35,6 @@ public class Controller {
 
     public void mainLoop(){
         Message message = null;
-        ArrayList<String> cardMessage = new ArrayList<>();
 
         //selectCzar();
         while(view.isDisplayable()){
@@ -53,22 +53,27 @@ public class Controller {
                 System.out.println(playerMessage.getName());
 
                 ArrayList<String> nameList = new ArrayList<>();
-                for(PlayerModel p : players)
+                ArrayList<Integer> score = new ArrayList<>();
+                for(PlayerModel p : players) {
                     nameList.add(p.getName());
+                    score.add(p.getScore());
+                }
 
-                view.updatePlayersInView(nameList);
+                view.updatePlayersInView(nameList, score);
 
                 if(players.size() >= 4)
                     view.disableAddPlayerInView();
                 if(players.size() > 2)
                     view.enableStartGameInView();
             }
+            //load file button pressed
             else if(message.getClass() == LoadFileMessage.class){
                 LoadFileMessage fileMessage = (LoadFileMessage) message;
 
                 load(fileMessage.getFileDir(), whiteDeck, blackDeck);
                 view.disableLoadFileButtonInView();
             }
+            //game start button pressed
             else if(message.getClass() == StartGameMessage.class){
                 if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty())
                     load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);
@@ -76,12 +81,16 @@ public class Controller {
                 ArrayList<String> curPlayerHand = new ArrayList<String>();
                 for(int index : players.get(curPlayerIndex).getHand())
                     curPlayerHand.add(whiteDeck.getCards().get(index).toString());
-                view.startAGameInView(players.get(curCzerIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
+                view.startAGameInView(players.get(curPlayerIndex).getName(), players.get(curCzerIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
             }
+            //when a card is chosen from hand
             else if(message.getClass() == ChoseFromHandMessage.class){
                 ChoseFromHandMessage handMessage = (ChoseFromHandMessage) message;
 
                 chosenCardIndex.add(players.get(curPlayerIndex).getHand().get(handMessage.getIndex()));
+                ArrayList<Integer> hand = players.get(curPlayerIndex).getHand();
+                hand.remove(handMessage.getIndex());
+                players.get(curPlayerIndex).setHand(hand);
 
                 ArrayList<String> chosenCardsDescription = new ArrayList<>();
                 for(int cardIndex : chosenCardIndex){
@@ -93,32 +102,35 @@ public class Controller {
             }
             //when nextPlayer button is pressed
             else if(message.getClass() == DoNextPlayer.class){
-                    updateCurPlayer();
-                    cardMessage.clear();
+                updateCurPlayer();
+                ArrayList<String> handCardDescription = new ArrayList<>();
+                if(curPlayerIndex != curCzerIndex) {
                     //grab description for cards in hand
-                    for(int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++){
-                        cardMessage.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
+                    for (int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++) {
+                        handCardDescription.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
                     }
-//                view.updateHand(cardMessage);
+
+                    view.updateHandInView(handCardDescription);
+                    view.enableHandButtonsInView();
                 }
+                else{
+                    view.updateHandInView(handCardDescription);
+                    view.showChosenButtonsInView();
+                 }
+            }
         }
     }
 
     private int updateCurPlayer(){
         curPlayerIndex++;
-        if(curPlayerIndex > players.size())
+        if(curPlayerIndex >= players.size())
             curPlayerIndex = 0;
-        if(curPlayerIndex == curCzerIndex) {
-            curPlayerIndex++;
-            if(curPlayerIndex > players.size())
-                curPlayerIndex = 0;
-        }
         return curPlayerIndex;
     }
 
     private int updateCurCzer(){
         curCzerIndex++;
-        if(curCzerIndex > players.size())
+        if(curCzerIndex >= players.size())
             curCzerIndex = 0;
         return curCzerIndex;
     }
@@ -166,6 +178,7 @@ public class Controller {
             int playerIndx = 0;
             for(int i = 0; i < whiteDeck.getNumOfCards(); i++) {
                 players.get(playerIndx).grabCard(i);
+                lastCardDelt = i;
                 playerIndx++;
                 if(playerIndx > players.size() - 1)
                     playerIndx = 0;

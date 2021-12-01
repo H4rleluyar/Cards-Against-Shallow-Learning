@@ -68,6 +68,16 @@ public class PlayerModel {
     }
 
     /*
+     *update hand
+     */
+    public boolean setHand(ArrayList<Integer> newHand) {
+        hand.clear();
+        for(int index : newHand)
+            hand.add(index);
+        return true;
+    }
+
+    /*
      *add a card to player's Hand
      */
     public void grabCard(Integer i){

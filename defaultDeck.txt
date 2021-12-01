@@ -12,6 +12,14 @@ W This is the first white card
 W this is the second
 W this is the third
 W this is the fourth
+W this is the fifth
+W this is the sixth
+W this is the seventh
+W this is the eighth
+W this is the ninth
+W this is the tenth
+W this is the eleventh
+W this is the twelfth
 
 B even
 W mixing
