@@ -1,3 +1,4 @@
+import MVCstructure.model.CardModel;
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -5,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CardTest {
     @Test
     public void testLine(){
-        Card empty = new Card();
-        Card initialized = new Card("This is a test!");
+        CardModel empty = new CardModel();
+        CardModel initialized = new CardModel("This is a test!");
 
         //testing initial states & accessor
         assertEquals(empty.line(), "", "Expecting empty Card to have empty line!");
@@ -23,7 +24,7 @@ public class CardTest {
 
     @Test
     public void testCardFlip(){
-        Card empty = new Card();
+        CardModel empty = new CardModel();
 
         //testing initial state & accessor
         assertEquals(empty.flipped(), false, "Expecting card as not flipped as initial state");
@@ -38,7 +39,7 @@ public class CardTest {
 
     @Test
     public void testUsed(){
-        Card empty = new Card();
+        CardModel empty = new CardModel();
 
         //testing inital state & accessor
         assertEquals(empty.used(), false, "Expecting new cards to be unused");
@@ -52,10 +53,10 @@ public class CardTest {
 
     @Test
     public void arrayListTest(){
-        ArrayList<Card> cardArr = new ArrayList<Card>();
+        ArrayList<CardModel> cardArr = new ArrayList<CardModel>();
 
         for(int i = 0; i < 20; i++)
-            cardArr.add(new Card("I am card " + i + "!"));
+            cardArr.add(new CardModel("I am card " + i + "!"));
 
         //testing each card is correctly set with their line, flipped status and used status
         for(int i = 0; i < 20; i++) {

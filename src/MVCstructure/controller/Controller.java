@@ -13,12 +13,14 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
 public class Controller {
+    final static String DEFAULT_FILE_DIR = "defaultDeck.txt";
     BlockingQueue<Message> queue;
     View view;
 
     DeckModel whiteDeck;
     DeckModel blackDeck;
     ArrayList<PlayerModel> players = new ArrayList<>();
+    ArrayList<Integer> chosenCardIndex = new ArrayList<>(); //index in whiteDeck
 
     int curCzerIndex = 0;
     int curPlayerIndex = 1;
@@ -42,29 +44,63 @@ public class Controller {
                 //do nothing
             }
 
-            if(message.getClass() == DoNextPlayer.class){
-                updateCurPlayer();
-                cardMessage.clear();
-                //grab description for cards in hand
-                for(int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++){
-                    cardMessage.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
-                }
-//                view.updateHand(cardMessage);
-            }
-            else if(message.getClass() == AddPlayerMessage.class){
+            //When addPlayer button is pressed
+            if(message.getClass() == AddPlayerMessage.class){
                 AddPlayerMessage playerMessage = (AddPlayerMessage) message;
 
                 players.add(new PlayerModel(playerMessage.getName()));
 
-                String names = "";
-                for(PlayerModel p : players)
-                    if(p == players.get(players.size() - 1))
-                        names += p.getName();
-                    else
-                        names += p.getName() + ", ";
-                view.updatePlayersInView(names);
-            }
+                System.out.println(playerMessage.getName());
 
+                ArrayList<String> nameList = new ArrayList<>();
+                for(PlayerModel p : players)
+                    nameList.add(p.getName());
+
+                view.updatePlayersInView(nameList);
+
+                if(players.size() >= 4)
+                    view.disableAddPlayerInView();
+                if(players.size() > 2)
+                    view.enableStartGameInView();
+            }
+            else if(message.getClass() == LoadFileMessage.class){
+                LoadFileMessage fileMessage = (LoadFileMessage) message;
+
+                load(fileMessage.getFileDir(), whiteDeck, blackDeck);
+                view.disableLoadFileButtonInView();
+            }
+            else if(message.getClass() == StartGameMessage.class){
+                if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty())
+                    load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);
+                dealCards();
+                ArrayList<String> curPlayerHand = new ArrayList<String>();
+                for(int index : players.get(curPlayerIndex).getHand())
+                    curPlayerHand.add(whiteDeck.getCards().get(index).toString());
+                view.startAGameInView(players.get(curCzerIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
+            }
+            else if(message.getClass() == ChoseFromHandMessage.class){
+                ChoseFromHandMessage handMessage = (ChoseFromHandMessage) message;
+
+                chosenCardIndex.add(players.get(curPlayerIndex).getHand().get(handMessage.getIndex()));
+
+                ArrayList<String> chosenCardsDescription = new ArrayList<>();
+                for(int cardIndex : chosenCardIndex){
+                    chosenCardsDescription.add(whiteDeck.getCards().get(cardIndex).toString());
+                }
+
+                view.updateChosenCardInView(chosenCardsDescription);
+                view.disableHandButtonsInView();
+            }
+            //when nextPlayer button is pressed
+            else if(message.getClass() == DoNextPlayer.class){
+                    updateCurPlayer();
+                    cardMessage.clear();
+                    //grab description for cards in hand
+                    for(int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++){
+                        cardMessage.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
+                    }
+//                view.updateHand(cardMessage);
+                }
         }
     }
 
@@ -143,9 +179,5 @@ public class Controller {
             return true;
         }
         return false;
-    }
-
-    void addPlayers(PlayerModel p){
-        players.add(p);
     }
 }
