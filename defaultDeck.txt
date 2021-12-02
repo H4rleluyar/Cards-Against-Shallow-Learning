@@ -3,29 +3,57 @@
 #  To add card
 #  B <card line>
 #  W <card line>
-B This is the first black card
-B This is the second black card
-B This is the third black card
-B this custom card
+B What are we teaching for, replication or activation?
+B What do we want to be remembered for?
+B In classroom settings, without human connection, what are we doing?
+B What does it mean to teach?
+B What does it mean to learn?
+B What are the conditions for students to learn significantly?
+B Why can’t we outsource the sense of belonging?
+B What’s getting in the way of learning?
+B Why is it important to reflect on your own beliefs, attitudes, behavior or knowledge?
+B What goals do you have?
+B Why are you pursuing higher education?
+B What does plan to fudge it up mean?
+B Why is deep reading different than listening to lecture or a presentation?
+B What is shallow learning?
+B What’s a model for deep learning?
+B What are the 5 stages of deep learning?
+B How do you get paid to learn?
+B How do you make learning meaningful?
+B What’s pedagogy?
+B Why are grades harmful for durable learning?
+B What are the 4 steps to how to solve it?
+B How do we heal from grades?
+B Why is lecture the least complicated and interesting part of a students’ learning process?
 
-W This is the first white card
-W this is the second
-W this is the third
-W this is the fourth
-W this is the fifth
-W this is the sixth
-W this is the seventh
-W this is the eighth
-W this is the ninth
-W this is the tenth
-W this is the eleventh
-W this is the twelfth
-
-B even
-W mixing
-B card color
-W works
-W for this
-B program
-
-WBBWBWBW
+W All of class time invested in co: writing, inquiry, discussion, and reflection
+W If the knowledge we hold is the medicine, then find out what the headache is
+W Pedagogy as Protest Against Shallow Learning
+W Each student is capable of being an embedded tutor if class time was centered around
+W students teaching one another
+W Grades like standardized tests measures class and propagate caste more than anything else
+W A process rather than a product
+W Dominant vs. counter narratives
+W Clean air, please.
+W Less textiles
+W No more poop-to-coffee startups
+W Big corporations need to pay their taxes rather than smokescreen philanthropy
+W Changes in beliefs, attitudes, behaviors, or knowledge
+W Rewriting lecture notes
+W Putting prof. Office hours into calendar
+W Connecting with 3 peers in the class by thoughtfully observing and reaching out to 6
+W Generating anticipated homework and test questions ourselves
+W To myelinate our dendrites
+W Interdisciplinary collaborations to support BIPOC and 1st gen students
+W I learn more from gifs and memes
+W Learning styles may be debunked by concept images
+W Learning is not bounded by
+W Cognitive Dissonance
+W Plutes gonna Plute, search up plutocracy if you didn’t laugh
+W Standardized tests and Grades measure class, while propagating caste, more than anything else
+W Obey authority is diff than developing sound judgment and responsibility
+W Personnel is Policy
+W 1st gen BIPOC student body hold libraries within them
+W All STEM is hard, until it’s not
+W parents & peers & teachers hold the future in their hands

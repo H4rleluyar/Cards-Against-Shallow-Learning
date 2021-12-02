@@ -399,8 +399,6 @@ public class View extends JFrame {
             chosenCardsTextAreaArr.get(i).setText(chosenArr.get(i));
             chosenCardsTextAreaArr.get(i).setVisible(true);
         }
-
-        nextPlayerButton.setEnabled(true);
     }
 
     public void disableHandButtonsInView(){

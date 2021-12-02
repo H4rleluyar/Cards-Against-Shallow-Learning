@@ -80,10 +80,13 @@ public class Controller {
             }
             //game start button pressed
             else if(message.getClass() == StartGameMessage.class){
+
                 if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty()) //check to make sure the whiteDeck and blackDeck is empty before loading in the txt file with cord information into the deck
                     load(DEFAULT_FILE_DIR, whiteDeck, blackDeck); // load the cards from txt into the whiteDeck and blackDeck
                 dealCards(); //call this method to give players' cards from the Deck
+              
                 ArrayList<String> curPlayerHand = new ArrayList<>(); //The player's hand that store string information
+              
                 for(int index : players.get(curPlayerIndex).getHand())
                     curPlayerHand.add(whiteDeck.getCards().get(index).toString());
                 view.startAGameInView(players.get(curPlayerIndex).getName(), players.get(curCzarIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
@@ -104,6 +107,7 @@ public class Controller {
 
                 view.updateChosenCardInView(chosenCardsDescription);
                 view.disableHandButtonsInView();
+                view.enableDoNextPlayerInView();
             }
             //when nextPlayer button is pressed
             else if(message.getClass() == DoNextPlayer.class){
@@ -142,11 +146,11 @@ public class Controller {
                 view.hideChosenButtonsInView();
                 view.updateHandInView(handCardDescription);
                 view.enableHandButtonsInView();
-                view.enableDoNextPlayerInView();
                 view.updateChosenCardInView(new ArrayList<>());
                 view.updateCzarInView(players.get(curCzarIndex).getName());
                 lastBlackCardShown++;
                 view.updateBlackCardInView(blackDeck.getCards().get(lastBlackCardShown).toString());
+                view.updateCurPlayerInView(players.get(curPlayerIndex).getName());
             }
         }
     }
@@ -216,7 +220,9 @@ public class Controller {
                 if(playerIndx > players.size() - 1) //reset to player index so first player can get card at index 5, assuming there is 4 players and each players have card 1,2 ,3 ,4 (respectively)
                     playerIndx = 0;
                 if(playerIndx == 0) {
+
                     if(players.get(0).getHand().size() >= 5) //check if player has more or less than 5 cards
+
                         return true;
                     else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
                         return true;
