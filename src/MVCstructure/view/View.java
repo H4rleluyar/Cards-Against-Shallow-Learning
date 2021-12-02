@@ -13,15 +13,19 @@ import java.util.concurrent.BlockingQueue;
 public class View extends JFrame {
     BlockingQueue<Message> queue;
 
-    //global definition for all components
+    //global definition for all component
+    //All Labels are located here
     JLabel titleLabel; //The title of the Game
     JLabel playerLabel; //player name
     JLabel fileDirLabel;
     JLabel curPlayer;
+    JLabel scoreTracker;
 
+    //All TextField is Here
     JTextField playerNameTextField;
     JTextField fileDirTextField;
 
+    //All Buttons here
     JButton addPlayerButton;
     JButton loadFileButton;
     JButton startGameButton;
@@ -29,6 +33,7 @@ public class View extends JFrame {
     ArrayList<JButton> handButtonArr;
     ArrayList<JButton> chosenButtonArr;
 
+    //All Text Area Here
     JTextArea playerScoreBoard;
     JTextArea currCzarTextArea; //display who's the current czar
     JTextArea blackCardTextArea; //display black Card
@@ -261,6 +266,7 @@ public class View extends JFrame {
         });
 
         chosenButtonArr.get(0).addActionListener(e->{
+            System.out.println(1 + "score");
             try{
                 Message msg = new CzarChoseCardMessage(0);
                 queue.put(msg);
@@ -270,6 +276,7 @@ public class View extends JFrame {
         });
 
         chosenButtonArr.get(1).addActionListener(e->{
+            System.out.println(1 + "score");
             try{
                 Message msg = new CzarChoseCardMessage(1);
                 queue.put(msg);
@@ -279,6 +286,7 @@ public class View extends JFrame {
         });
 
         chosenButtonArr.get(2).addActionListener(e->{
+            System.out.println(1 + "score");
             try{
                 Message msg = new CzarChoseCardMessage(2);
                 queue.put(msg);
@@ -328,6 +336,7 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    //update Player's information in view such as his score
     public void updatePlayersInView(ArrayList<String> nameList, ArrayList<Integer> score){
         playerNameTextField.setText("");
         String scoreBoardStr = "------Score Board------\n";
@@ -420,6 +429,7 @@ public class View extends JFrame {
     }
 
     public void enableDoNextPlayerInView(){nextPlayerButton.setEnabled(true);}
+
 }
 
 class JTextFieldLimit extends PlainDocument {
