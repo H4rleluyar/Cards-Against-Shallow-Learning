@@ -211,7 +211,7 @@ public class Controller {
                 if(playerIndx > players.size() - 1)
                     playerIndx = 0;
                 if(playerIndx == 0) {
-                    if(players.get(0).getHand().size() > 10)
+                    if(players.get(0).getHand().size() >= 5)
                         return true;
                     else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
                         return true;
@@ -220,5 +220,10 @@ public class Controller {
             return true;
         }
         return false;
+    }
+
+    //get an arraylist of players
+    public ArrayList<PlayerModel> getPlayers(){
+        return players;
     }
 }

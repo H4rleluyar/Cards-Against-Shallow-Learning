@@ -22,6 +22,11 @@ public class DeckModel {
 		return (ArrayList<CardModel>) currentDeck.clone();
 	}
 
+	//use this to get cards from ArrayList, not a clone version
+	public ArrayList<CardModel> getCard(){
+		return currentDeck;
+	}
+
 	// adds a card to the current Deck (one by one, or as a list)
 	public void addCard(CardModel c) { this.currentDeck.add(c); }
 	public void addCard(ArrayList<CardModel> cards) { currentDeck.addAll(cards); }

@@ -1,0 +1,32 @@
+B This is the first black card
+B This is the second black card
+B This is the third black card
+B this custom card
+
+W This is the 1 white card
+W this is the 2 white card
+W this is the 3 white card
+W this is the 4 white card
+
+W This is the 5 white card
+W this is the 6 white card
+W this is the 7 white card
+W this is the 8 white card
+
+
+W This is the 9 white card
+W this is the 10 white card
+W this is the 11 white card
+W this is the 12 white card
+
+
+W This is the 13 white card
+W this is the 14 white card
+W this is the 15 white card
+W this is the 16 white card
+
+W this is the 17 white card
+W this is the 18 white card
+W this is the 19 white card
+W this is the 20 white card
+
