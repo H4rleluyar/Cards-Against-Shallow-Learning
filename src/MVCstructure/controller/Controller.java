@@ -79,6 +79,8 @@ public class Controller {
             else if(message.getClass() == StartGameMessage.class){
                 if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty()) //check to make sure the whiteDeck and blackDeck is empty before loading in the txt file with cord information into the deck
                     load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);  // load the cards from txt into the whiteDeck and blackDeck
+                whiteDeck.shuffleDeck(); //shuffle the deck before the game starts
+                blackDeck.shuffleDeck(); //shuffle the deck before the game starts
                 dealCards();  //call this method to give players' cards from the Deck
                 ArrayList<String> curPlayerHand = new ArrayList<>(); //The player's hand that store string information
                 for(int index : players.get(curPlayerIndex).getHand())
@@ -228,8 +230,6 @@ public class Controller {
     //use this method to give players' cards from the Deck
     public boolean dealCards(){
         //deck is large enough for each player to get atleast one card
-        whiteDeck.shuffleDeck();
-        blackDeck.shuffleDeck();
         if((whiteDeck.getNumOfCards() / players.size()) > 0){ //check if the white card and player size is more than 0 before this method can run
             int playerIndx = 0;  //starting at index 0
             for(int i = 0; i < whiteDeck.getNumOfCards(); i++) { //keeps running until the deck is empty
