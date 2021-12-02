@@ -37,6 +37,11 @@ public class DeckModel {
 		return retStr;
 	}
 
+	//use this to get cards from ArrayList, not a clone version
+	public ArrayList<CardModel> getCard(){
+		return currentDeck;
+	}
+
 	/* *shiffleDeck, enter the deck that you want to shuffle */
 	public void shuffleDeck(){
 		Collections.shuffle(currentDeck, new Random()); }
