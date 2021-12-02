@@ -1,8 +1,5 @@
 package MVCstructure.model;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class CardModel {
 
     private static final int MAX_LINE_CHAR_NUM = 100;

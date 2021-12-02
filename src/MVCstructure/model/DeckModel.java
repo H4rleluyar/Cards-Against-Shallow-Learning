@@ -1,7 +1,5 @@
 package MVCstructure.model;
 
-import MVCstructure.model.CardModel;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;

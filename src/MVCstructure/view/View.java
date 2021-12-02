@@ -25,15 +25,15 @@ public class View extends JFrame {
     JButton addPlayerButton;
     JButton loadFileButton;
     JButton startGameButton;
-    JButton nextPlayerButton;
-    ArrayList<JButton> handButtonArr;
-    ArrayList<JButton> chosenButtonArr;
+    JButton nextPlayerButton;            //used to go the the next player's turn
+    ArrayList<JButton> handButtonArr;    //used by player to chose a card from their hand
+    ArrayList<JButton> chosenButtonArr; //used by czar to choose the winner
 
     JTextArea playerScoreBoard;
     JTextArea currCzarTextArea; //display who's the current czar
     JTextArea blackCardTextArea; //display black Card
-    ArrayList<JTextArea> chosenCardsTextAreaArr;
-    ArrayList<JTextArea> handTextAreaArr;
+    ArrayList<JTextArea> chosenCardsTextAreaArr;  //display the ArrayList that has all the cards that the player has chosen
+    ArrayList<JTextArea> handTextAreaArr;         //display the Arraylist that has the player's hand and his/her card
 
     Font font;
 
@@ -328,6 +328,7 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    //methods to be used in controller
     public void updatePlayersInView(ArrayList<String> nameList, ArrayList<String> score){
         playerNameTextField.setText("");
         String scoreBoardStr = "------Score Board------\n";

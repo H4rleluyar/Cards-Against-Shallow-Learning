@@ -2,7 +2,6 @@ package MVCstructure.model;
 
 import java.util.ArrayList;
 
-//Unfinished MVCstructure.Player class, Doesn't have Deck yet
 public class PlayerModel {
     private String name; //name of the MVCstructure.Player
     private int score; //amount of score the MVCstructure.Player has
@@ -108,12 +107,3 @@ public class PlayerModel {
         return retStr;
     }
 }
-
-//    public void populateHand(Deck d){
-//        while(hand.size() != 10){ //if players don't have 10 cards in the player's hand at start of match, then keep adding random white cards from deck to player hand
-//            ArrayList<Card> tempWhiteCards = d.getCardsFromDeck();     // an arraylist of white Cards from Deck d
-//            int randomCard = random.nextInt(tempWhiteCards.size()); //random index from tempWhiteCard
-//            playerWhiteCards.add(tempWhiteCards.get(randomCard));   //add the random card into the player's hand
-//            tempWhiteCards.remove(randomCard);
-//        }
-//    }
