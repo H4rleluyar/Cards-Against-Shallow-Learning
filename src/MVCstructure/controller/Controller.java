@@ -95,7 +95,7 @@ public class Controller {
                 ArrayList<Integer> hand = players.get(curPlayerIndex).getHand();
                 hand.remove(handMessage.getIndex());
 
-                if(lastCardDelt <= whiteDeck.getCards().size()) {
+                if(lastCardDelt < whiteDeck.getCards().size()-1) {
                     hand.add(lastCardDelt + 1);
 //                    System.out.println(players.get(curPlayerIndex).getHand());
                     lastCardDelt++;
