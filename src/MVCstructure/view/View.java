@@ -260,6 +260,51 @@ public class View extends JFrame {
             }
         });
 
+        chosenButtonArr.get(0).addActionListener(e->{
+            try{
+                Message msg = new CzarChoseCardMessage(0);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
+        chosenButtonArr.get(1).addActionListener(e->{
+            try{
+                Message msg = new CzarChoseCardMessage(1);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
+        chosenButtonArr.get(2).addActionListener(e->{
+            try{
+                Message msg = new CzarChoseCardMessage(2);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
+        chosenButtonArr.get(3).addActionListener(e->{
+            try{
+                Message msg = new CzarChoseCardMessage(3);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
+        chosenButtonArr.get(4).addActionListener(e->{
+            try{
+                Message msg = new CzarChoseCardMessage(4);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
         /*
          *Show Chosen
          * */
@@ -314,7 +359,7 @@ public class View extends JFrame {
         fileDirTextField.setEnabled(false);
         loadFileButton.setEnabled(false);
 
-        curPlayer.setText(currentPlayer);
+        updateCurPlayerInView(currentPlayer);
         updateHandInView(handArr);
     }
     public void updateHandInView(ArrayList<String> handArr){
@@ -334,7 +379,10 @@ public class View extends JFrame {
 
     public void updateCzarInView(String name){currCzarTextArea.setText(name+"\nis the Czar");}
 
+    public void updateCurPlayerInView(String name) { curPlayer.setText(name + "'s turn");}
+
     public void updateChosenCardInView(ArrayList<String> chosenArr){
+        System.out.println(chosenArr.toString());
         for(int i = 0; i < chosenCardsTextAreaArr.size(); i++)
             chosenCardsTextAreaArr.get(i).setVisible(false);
 
@@ -370,6 +418,8 @@ public class View extends JFrame {
                 chosenButtonArr.get(i).setVisible(true);
         }
     }
+
+    public void enableDoNextPlayerInView(){nextPlayerButton.setEnabled(true);}
 }
 
 class JTextFieldLimit extends PlainDocument {

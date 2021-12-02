@@ -22,15 +22,18 @@ public class Controller {
     ArrayList<PlayerModel> players = new ArrayList<>();
     ArrayList<Integer> chosenCardIndex = new ArrayList<>(); //index in whiteDeck
 
-    int curCzerIndex = 0;
+    int curCzarIndex = 0;
     int curPlayerIndex = 1;
     int lastCardDelt = 0;
+    int lastBlackCardShown = 0;
 
     public Controller(BlockingQueue<Message> queue, DeckModel whiteDeck, DeckModel blackDeck, View view){
         this.queue = queue;
         this.whiteDeck = whiteDeck;
         this.blackDeck = blackDeck;
         this.view = view;
+        whiteDeck.shuffleDeck();
+        blackDeck.shuffleDeck();
     }
 
     public void mainLoop(){
@@ -78,10 +81,10 @@ public class Controller {
                 if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty())
                     load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);
                 dealCards();
-                ArrayList<String> curPlayerHand = new ArrayList<String>();
+                ArrayList<String> curPlayerHand = new ArrayList<>();
                 for(int index : players.get(curPlayerIndex).getHand())
                     curPlayerHand.add(whiteDeck.getCards().get(index).toString());
-                view.startAGameInView(players.get(curPlayerIndex).getName(), players.get(curCzerIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
+                view.startAGameInView(players.get(curPlayerIndex).getName(), players.get(curCzarIndex).getName(), blackDeck.getCards().get(0).toString(), curPlayerHand);
             }
             //when a card is chosen from hand
             else if(message.getClass() == ChoseFromHandMessage.class){
@@ -104,7 +107,7 @@ public class Controller {
             else if(message.getClass() == DoNextPlayer.class){
                 updateCurPlayer();
                 ArrayList<String> handCardDescription = new ArrayList<>();
-                if(curPlayerIndex != curCzerIndex) {
+                if(curPlayerIndex != curCzarIndex) {
                     //grab description for cards in hand
                     for (int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++) {
                         handCardDescription.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
@@ -112,11 +115,36 @@ public class Controller {
 
                     view.updateHandInView(handCardDescription);
                     view.enableHandButtonsInView();
+                    view.updateCurPlayerInView(players.get(curPlayerIndex).getName());
                 }
                 else{
                     view.updateHandInView(handCardDescription);
                     view.showChosenButtonsInView();
+                    view.updateCurPlayerInView("Czar");
+                    chosenCardIndex.clear();
                  }
+            }
+            else if(message.getClass() == CzarChoseCardMessage.class){
+                CzarChoseCardMessage chosenMessage = (CzarChoseCardMessage) message;
+
+                updateCurCzer();
+                updateCurPlayer();//skipping czer index
+                updateCurPlayer();
+
+                ArrayList<String> handCardDescription = new ArrayList<>();
+
+                for (int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++) {
+                    handCardDescription.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
+                }
+
+                view.hideChosenButtonsInView();
+                view.updateHandInView(handCardDescription);
+                view.enableHandButtonsInView();
+                view.enableDoNextPlayerInView();
+                view.updateChosenCardInView(new ArrayList<>());
+                view.updateCzarInView(players.get(curCzarIndex).getName());
+                lastBlackCardShown++;
+                view.updateBlackCardInView(blackDeck.getCards().get(lastBlackCardShown).toString());
             }
         }
     }
@@ -129,10 +157,10 @@ public class Controller {
     }
 
     private int updateCurCzer(){
-        curCzerIndex++;
-        if(curCzerIndex >= players.size())
-            curCzerIndex = 0;
-        return curCzerIndex;
+        curCzarIndex++;
+        if(curCzarIndex >= players.size())
+            curCzarIndex = 0;
+        return curCzarIndex;
     }
 
     //select who gets to be the Czar for the first match of the game
@@ -142,7 +170,7 @@ public class Controller {
     }
 
     //loads from txt file
-    boolean load(String fileDir, DeckModel whiteDeck, DeckModel blackDeck){
+    public boolean load(String fileDir, DeckModel whiteDeck, DeckModel blackDeck){
         File file = new File(fileDir);
         try {
             Scanner scan = new Scanner(file);
@@ -172,7 +200,7 @@ public class Controller {
         return true;
     }
 
-    boolean dealCards(){
+    public boolean dealCards(){
         //deck is large enough for each player to get atleast one card
         if((whiteDeck.getNumOfCards() / players.size()) > 0){
             int playerIndx = 0;
