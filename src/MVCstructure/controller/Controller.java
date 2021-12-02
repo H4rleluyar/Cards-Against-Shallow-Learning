@@ -81,6 +81,8 @@ public class Controller {
                 if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty())
                     load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);
                 dealCards();
+                for(PlayerModel p: players)
+                    System.out.println(p.getName() + ": " + p.getHand().size());
                 ArrayList<String> curPlayerHand = new ArrayList<>();
                 for(int index : players.get(curPlayerIndex).getHand())
                     curPlayerHand.add(whiteDeck.getCards().get(index).toString());
@@ -102,6 +104,7 @@ public class Controller {
 
                 view.updateChosenCardInView(chosenCardsDescription);
                 view.disableHandButtonsInView();
+                view.enableDoNextPlayerInView();
             }
             //when nextPlayer button is pressed
             else if(message.getClass() == DoNextPlayer.class){
@@ -140,11 +143,11 @@ public class Controller {
                 view.hideChosenButtonsInView();
                 view.updateHandInView(handCardDescription);
                 view.enableHandButtonsInView();
-                view.enableDoNextPlayerInView();
                 view.updateChosenCardInView(new ArrayList<>());
                 view.updateCzarInView(players.get(curCzarIndex).getName());
                 lastBlackCardShown++;
                 view.updateBlackCardInView(blackDeck.getCards().get(lastBlackCardShown).toString());
+                view.updateCurPlayerInView(players.get(curPlayerIndex).getName());
             }
         }
     }
@@ -211,7 +214,7 @@ public class Controller {
                 if(playerIndx > players.size() - 1)
                     playerIndx = 0;
                 if(playerIndx == 0) {
-                    if(players.get(0).getHand().size() > 10)
+                    if(players.get(0).getHand().size() >= 5)
                         return true;
                     else if(whiteDeck.getNumOfCards() - (players.get(0).getHand().size() * players.size()) < players.size())
                         return true;
