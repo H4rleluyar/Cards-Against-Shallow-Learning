@@ -32,8 +32,6 @@ public class Controller {
         this.whiteDeck = whiteDeck;
         this.blackDeck = blackDeck;
         this.view = view;
-        whiteDeck.shuffleDeck();
-        blackDeck.shuffleDeck();
     }
 
     public void mainLoop(){
@@ -230,6 +228,8 @@ public class Controller {
     //use this method to give players' cards from the Deck
     public boolean dealCards(){
         //deck is large enough for each player to get atleast one card
+        whiteDeck.shuffleDeck();
+        blackDeck.shuffleDeck();
         if((whiteDeck.getNumOfCards() / players.size()) > 0){ //check if the white card and player size is more than 0 before this method can run
             int playerIndx = 0;  //starting at index 0
             for(int i = 0; i < whiteDeck.getNumOfCards(); i++) { //keeps running until the deck is empty
