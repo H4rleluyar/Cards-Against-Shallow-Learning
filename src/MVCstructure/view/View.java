@@ -328,7 +328,7 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void updatePlayersInView(ArrayList<String> nameList, ArrayList<Integer> score){
+    public void updatePlayersInView(ArrayList<String> nameList, ArrayList<String> score){
         playerNameTextField.setText("");
         String scoreBoardStr = "------Score Board------\n";
         for(int i = 0; i < nameList.size(); i++){

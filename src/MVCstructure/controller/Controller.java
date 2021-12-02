@@ -55,11 +55,10 @@ public class Controller {
 
                 System.out.println(playerMessage.getName());
 
-                ArrayList<String> nameList = new ArrayList<>();
-                ArrayList<Integer> score = new ArrayList<>();
+                ArrayList<String> nameList = new ArrayList<>(), score = new ArrayList<>();
                 for(PlayerModel p : players) {
                     nameList.add(p.getName());
-                    score.add(p.getScore());
+                    score.add(p.getScore()+"");
                 }
 
                 view.updatePlayersInView(nameList, score);
@@ -81,8 +80,6 @@ public class Controller {
                 if(whiteDeck.getCards().isEmpty() || blackDeck.getCards().isEmpty())
                     load(DEFAULT_FILE_DIR, whiteDeck, blackDeck);
                 dealCards();
-                for(PlayerModel p: players)
-                    System.out.println(p.getName() + ": " + p.getHand().size());
                 ArrayList<String> curPlayerHand = new ArrayList<>();
                 for(int index : players.get(curPlayerIndex).getHand())
                     curPlayerHand.add(whiteDeck.getCards().get(index).toString());
@@ -95,6 +92,13 @@ public class Controller {
                 chosenCardIndex.add(players.get(curPlayerIndex).getHand().get(handMessage.getIndex()));
                 ArrayList<Integer> hand = players.get(curPlayerIndex).getHand();
                 hand.remove(handMessage.getIndex());
+
+                if(lastCardDelt <= whiteDeck.getCards().size()) {
+                    hand.add(lastCardDelt + 1);
+//                    System.out.println(players.get(curPlayerIndex).getHand());
+                    lastCardDelt++;
+                }
+
                 players.get(curPlayerIndex).setHand(hand);
 
                 ArrayList<String> chosenCardsDescription = new ArrayList<>();
@@ -130,15 +134,20 @@ public class Controller {
             else if(message.getClass() == CzarChoseCardMessage.class){
                 CzarChoseCardMessage chosenMessage = (CzarChoseCardMessage) message;
 
+                int playerWinnerIndex = chosenMessage.getIndex() + curCzarIndex + 1;
+                if(playerWinnerIndex > players.size() - 1 )
+                    playerWinnerIndex -= players.size();
+
+                players.get(playerWinnerIndex).addScore();
+
                 updateCurCzer();
                 updateCurPlayer();//skipping czer index
                 updateCurPlayer();
 
                 ArrayList<String> handCardDescription = new ArrayList<>();
 
-                for (int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++) {
+                for (int i = 0; i < players.get(curPlayerIndex).getHand().size(); i++)
                     handCardDescription.add(whiteDeck.getCards().get(players.get(curPlayerIndex).getHand().get(i)).toString());
-                }
 
                 view.hideChosenButtonsInView();
                 view.updateHandInView(handCardDescription);
@@ -148,6 +157,12 @@ public class Controller {
                 lastBlackCardShown++;
                 view.updateBlackCardInView(blackDeck.getCards().get(lastBlackCardShown).toString());
                 view.updateCurPlayerInView(players.get(curPlayerIndex).getName());
+                ArrayList<String> playerNames = new ArrayList<>(), playerScore = new ArrayList<>();
+                for(PlayerModel p : players){
+                    playerNames.add(p.getName());
+                    playerScore.add(p.getScore()+"");
+                }
+                view.updatePlayersInView(playerNames, playerScore);
             }
         }
     }
