@@ -373,7 +373,7 @@ public class View extends JFrame {
 
     public void disableLoadFileButtonInView() { loadFileButton.setEnabled(false); fileDirTextField.setEnabled(false);}
 
-    public void enableStartGameInView() { startGameButton.setEnabled(true); }
+    public void enableStartGameInView(boolean enable) { startGameButton.setEnabled(enable); }
 
     public void startAGameInView(String currentPlayer, String currentCzarName, String blackCardDescription, ArrayList<String> handArr){
         System.out.println("started");
@@ -450,6 +450,10 @@ public class View extends JFrame {
     }
 
     public void enableDoNextPlayerInView(){nextPlayerButton.setEnabled(true);}
+
+    public void endGameInView(String winnerName){
+        currCzarTextArea.setText("Winner is\n" + winnerName);
+    }
 }
 
 class JTextFieldLimit extends PlainDocument {

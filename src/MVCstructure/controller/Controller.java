@@ -21,14 +21,14 @@ public class Controller {
     DeckModel blackDeck; //will be used to store the Arraylist of Black Cards that will be loaded from load method
     ArrayList<PlayerModel> players = new ArrayList<>();  //array list the store the players who are playing the game
     ArrayList<Integer> chosenCardIndex = new ArrayList<>(); //index in whiteDeck
-    ArrayList<String> nameList; //hold list of player's name put nameList here so that removeMessage can also access it
-    ArrayList<String> score; //hold list of player's score here so that removeMessage can also access it
     PlayerModel player;
 
     int curCzarIndex = 0; // index to keep track of who is the czar
     int curPlayerIndex = 1; // index to keep track of each player, example index 1 is player 1 and index 2 is player 2
     int lastCardDelt = 0; //index to keep track of what the last dealt card was in order to redeal card in next location
     int lastBlackCardShown = 0; //index to keep track of black card
+
+    boolean endGame = false;
 
     public Controller(BlockingQueue<Message> queue, DeckModel whiteDeck, DeckModel blackDeck, View view){
         this.queue = queue;
@@ -46,8 +46,7 @@ public class Controller {
             } catch (InterruptedException e){
                 //do nothing
             }
-            nameList = new ArrayList<>();//arraylist that holds  player's name
-            score = new ArrayList<>(); //arraylist that holds  player's score
+            
             //When addPlayer button is pressed
             if(message.getClass() == AddPlayerMessage.class ){
                 AddPlayerMessage playerMessage = (AddPlayerMessage) message;
@@ -57,43 +56,54 @@ public class Controller {
                 players.add(player); //add the player into the arraylist of players
 
                 System.out.println(playerMessage.getName());//testing to see in console
+                
+                ArrayList<String> playerName = new ArrayList<>();
+                ArrayList<String> playerScore = new ArrayList<>();
 
                 for(PlayerModel p : players) { //loop through to Arraylist player to get their information
-                    nameList.add(p.getName()); //put information of player's name in nameList
-                    score.add(p.getScore()+"");  //put information of player's score in score
+                    playerName.add(p.getName()); //put information of player's name in nameList
+                    playerScore.add(p.getScore()+"");  //put information of player's score in score
                 }
 
-                view.updatePlayersInView(nameList, score); //update what the view looks like
+                view.updatePlayersInView(playerName, playerScore); //update what the view looks like
 
                 //determine when the addPlayer button and StartGame work will work/stop working
                 if(players.size() >= 4) {
                     view.disableAddPlayerInView();
                 }
                 if(players.size() > 2)
-                    view.enableStartGameInView();
+                    view.enableStartGameInView(true);
 
             }
 
-            /* disable this comment because code doesn't function 100% yet, possible bugs is that it can only remove the starting from the players at starting index, and the view does not work as intended
             else if(message.getClass() == RemovePlayerMessage.class) {
                 RemovePlayerMessage playerMessage2 = (RemovePlayerMessage) message;
 
                 System.out.println(playerMessage2.getName());//testing to see in console
 
-                for(int i = 0; i <= players.size(); i++){
+                for(int i = 0; i < players.size(); i++){
                     if(players.get(i).getName().equals(playerMessage2.getName())){
                         players.remove(players.get(i));
-                        //nameList.remove(players.get(i).getName()); //put information of player's name in nameList
-                        //score.remove(players.get(i).getScore() + "");  //put information of player's score in score
+                        break;
                     }
-
-                    view.updatePlayersInView(nameList, score);
-
                 }
 
-            }
+                ArrayList<String> playerName = new ArrayList<>();
+                ArrayList<String> playerScore = new ArrayList<>();
 
-             */
+                //load player info as list to pass through to view
+                for(PlayerModel p : players){
+                    playerName.add(p.getName());
+                    playerScore.add(p.getScore()+"");
+                }
+                view.updatePlayersInView(playerName, playerScore);
+
+                if(players.size() < 3)
+                    view.enableStartGameInView(false);
+
+                if(players.size() < 4)
+                    view.enableAddPlayerInView();
+            }
 
             //load file button pressed
             else if(message.getClass() == LoadFileMessage.class){
@@ -138,6 +148,9 @@ public class Controller {
                 view.updateChosenCardInView(chosenCardsDescription);
                 view.disableHandButtonsInView();
                 view.enableDoNextPlayerInView();
+
+                if(players.get(curPlayerIndex).getHand().isEmpty())
+                    endGame = true;
             }
             //when nextPlayer button is pressed
             else if(message.getClass() == DoNextPlayer.class){
@@ -192,6 +205,26 @@ public class Controller {
                     playerScore.add(p.getScore()+"");
                 }
                 view.updatePlayersInView(playerNames, playerScore);
+
+                //if either one of the players have empty hands (we end the game)
+                if(endGame) {
+                    ArrayList<Integer> winnerIndex = new ArrayList<>();
+                    winnerIndex.add(0);
+                    for(int i = 1; i < players.size(); i++) {
+                        if (players.get(i).getScore() > players.get(winnerIndex.get(0)).getScore()) {
+                            winnerIndex.clear();
+                            winnerIndex.add(i);
+                        }
+                        else if (players.get(i).getScore() == players.get(winnerIndex.get(0)).getScore())
+                            winnerIndex.add(i);
+                    }
+
+                    String winnerName = "";
+                    for(int i : winnerIndex)
+                        winnerName += players.get(i).getName() + ", ";
+
+                    view.endGameInView(winnerName.substring(0, winnerName.length()-2));
+                }
             }
         }
     }
