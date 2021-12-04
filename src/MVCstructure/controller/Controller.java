@@ -21,6 +21,9 @@ public class Controller {
     DeckModel blackDeck; //will be used to store the Arraylist of Black Cards that will be loaded from load method
     ArrayList<PlayerModel> players = new ArrayList<>();  //array list the store the players who are playing the game
     ArrayList<Integer> chosenCardIndex = new ArrayList<>(); //index in whiteDeck
+    ArrayList<String> nameList; //hold list of player's name put nameList here so that removeMessage can also access it
+    ArrayList<String> score; //hold list of player's score here so that removeMessage can also access it
+    PlayerModel player;
 
     int curCzarIndex = 0; // index to keep track of who is the czar
     int curPlayerIndex = 1; // index to keep track of each player, example index 1 is player 1 and index 2 is player 2
@@ -36,7 +39,6 @@ public class Controller {
 
     public void mainLoop(){
         Message message = null;
-
         //selectCzar();
         while(view.isDisplayable()){
             try {
@@ -44,29 +46,54 @@ public class Controller {
             } catch (InterruptedException e){
                 //do nothing
             }
-
+            nameList = new ArrayList<>();//arraylist that holds  player's name
+            score = new ArrayList<>(); //arraylist that holds  player's score
             //When addPlayer button is pressed
-            if(message.getClass() == AddPlayerMessage.class){
+            if(message.getClass() == AddPlayerMessage.class ){
                 AddPlayerMessage playerMessage = (AddPlayerMessage) message;
 
-                players.add(new PlayerModel(playerMessage.getName()));
+                player = new PlayerModel(playerMessage.getName()); //make new player base on what the name enter
 
-                System.out.println(playerMessage.getName());
+                players.add(player); //add the player into the arraylist of players
 
-                ArrayList<String> nameList = new ArrayList<>(), score = new ArrayList<>(); ////2 arraylist that holds the player's name or player's score
+                System.out.println(playerMessage.getName());//testing to see in console
+
                 for(PlayerModel p : players) { //loop through to Arraylist player to get their information
                     nameList.add(p.getName()); //put information of player's name in nameList
                     score.add(p.getScore()+"");  //put information of player's score in score
                 }
 
-                view.updatePlayersInView(nameList, score);
+                view.updatePlayersInView(nameList, score); //update what the view looks like
 
                 //determine when the addPlayer button and StartGame work will work/stop working
-                if(players.size() >= 4)
+                if(players.size() >= 4) {
                     view.disableAddPlayerInView();
+                }
                 if(players.size() > 2)
                     view.enableStartGameInView();
+
             }
+
+            /* disable this comment because code doesn't function 100% yet, possible bugs is that it can only remove the starting from the players at starting index, and the view does not work as intended
+            else if(message.getClass() == RemovePlayerMessage.class) {
+                RemovePlayerMessage playerMessage2 = (RemovePlayerMessage) message;
+
+                System.out.println(playerMessage2.getName());//testing to see in console
+
+                for(int i = 0; i <= players.size(); i++){
+                    if(players.get(i).getName().equals(playerMessage2.getName())){
+                        players.remove(players.get(i));
+                        //nameList.remove(players.get(i).getName()); //put information of player's name in nameList
+                        //score.remove(players.get(i).getScore() + "");  //put information of player's score in score
+                    }
+
+                    view.updatePlayersInView(nameList, score);
+
+                }
+
+            }
+
+             */
 
             //load file button pressed
             else if(message.getClass() == LoadFileMessage.class){
@@ -91,7 +118,7 @@ public class Controller {
             else if(message.getClass() == ChoseFromHandMessage.class){
                 ChoseFromHandMessage handMessage = (ChoseFromHandMessage) message;
 
-                chosenCardIndex.add(players.get(curPlayerIndex).getHand().get(handMessage.getIndex()));
+                chosenCardIndex.add(players.get(curPlayerIndex).getHand().get(handMessage.getIndex()));  //ArrayList(chosenCardIndex) will add the player's chosen card from his hand to display on top
                 ArrayList<Integer> hand = players.get(curPlayerIndex).getHand();
                 hand.remove(handMessage.getIndex());
 

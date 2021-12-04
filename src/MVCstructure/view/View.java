@@ -23,11 +23,17 @@ public class View extends JFrame {
     JTextField fileDirTextField;
 
     JButton addPlayerButton;
+    JButton removePlayerButton;
     JButton loadFileButton;
     JButton startGameButton;
     JButton nextPlayerButton;            //used to go the the next player's turn
     ArrayList<JButton> handButtonArr;    //used by player to chose a card from their hand
     ArrayList<JButton> chosenButtonArr; //used by czar to choose the winner
+
+    // new
+    ArrayList<JTextArea> scoreBoard;
+    JTextArea jtScoreBoard;
+
 
     JTextArea playerScoreBoard;
     JTextArea currCzarTextArea; //display who's the current czar
@@ -37,6 +43,11 @@ public class View extends JFrame {
 
     Font font;
 
+    public String indentLine(String str, int spaces) {
+        return str.indent(spaces);
+    }
+
+
     public View(BlockingQueue<Message> queue) {
         this.queue = queue;
         this.setSize(1280, 720);
@@ -45,6 +56,7 @@ public class View extends JFrame {
         chosenButtonArr = new ArrayList<>();
         chosenCardsTextAreaArr = new ArrayList<>();
         handTextAreaArr = new ArrayList<>();
+        scoreBoard = new ArrayList<>();
 
         /*
          *Show title
@@ -58,7 +70,7 @@ public class View extends JFrame {
         /*
         Fields for entering info before game start
          */
-        playerLabel = new JLabel("Enter player's name:");
+        playerLabel = new JLabel("Enter Player's name:");
         playerLabel.setBounds(280, 60, 150, 20);
         this.add(playerLabel);
 
@@ -67,14 +79,28 @@ public class View extends JFrame {
         playerNameTextField.setDocument(new JTextFieldLimit(15));
         this.add(playerNameTextField);
 
-        addPlayerButton = new JButton("Add Player");
-        addPlayerButton.setBounds(580,60,100,20);
+        addPlayerButton = new JButton("Add");
+        addPlayerButton.setBounds(580,60,70,20);
         this.add(addPlayerButton);
         addPlayerButton.addActionListener(e->{
             String name = playerNameTextField.getText();
 
             try{
                 Message msg = new AddPlayerMessage(name);
+                queue.put(msg);
+            } catch (InterruptedException exception) {
+                //do nothing
+            }
+        });
+
+        removePlayerButton = new JButton("Remove");
+        removePlayerButton.setBounds(660,60,85,20);
+        this.add(removePlayerButton);
+        removePlayerButton.addActionListener(e->{
+            String name = playerNameTextField.getText();
+
+            try{
+                Message msg = new RemovePlayerMessage(name);
                 queue.put(msg);
             } catch (InterruptedException exception) {
                 //do nothing
@@ -89,8 +115,8 @@ public class View extends JFrame {
         fileDirTextField.setBounds(410,90,160,20);
         this.add(fileDirTextField);
 
-        loadFileButton = new JButton("Load file");
-        loadFileButton.setBounds(580,90,100,20);
+        loadFileButton = new JButton("Load File/Deck");
+        loadFileButton.setBounds(580,90,120,20);
         this.add(loadFileButton);
         loadFileButton.addActionListener(e->{
             try{
@@ -102,7 +128,7 @@ public class View extends JFrame {
         });
 
         startGameButton = new JButton("Start Game");
-        startGameButton.setBounds(700,60,100,50);
+        startGameButton.setBounds(760,60,100,50);
         startGameButton.setEnabled(false);
         this.add(startGameButton);
         startGameButton.addActionListener(e->{
@@ -339,7 +365,11 @@ public class View extends JFrame {
         playerScoreBoard.setText(scoreBoardStr);
     }
 
-    public void disableAddPlayerInView() { addPlayerButton.setEnabled(false); playerNameTextField.setEnabled(false);}
+    public void disableAddPlayerInView() { addPlayerButton.setEnabled(false);  } //playerNameTextField.setEnabled(false); Bill -- put this out  so i can test remove button
+
+    public void enableAddPlayerInView() { addPlayerButton.setEnabled(true);}
+
+    public void disableRemovePlayerInView() { removePlayerButton.setEnabled(false);}
 
     public void disableLoadFileButtonInView() { loadFileButton.setEnabled(false); fileDirTextField.setEnabled(false);}
 
@@ -356,6 +386,7 @@ public class View extends JFrame {
 
         startGameButton.setEnabled(false);
         addPlayerButton.setEnabled(false);
+        removePlayerButton.setEnabled(false);
         playerNameTextField.setEnabled(false);
         fileDirTextField.setEnabled(false);
         loadFileButton.setEnabled(false);
