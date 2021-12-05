@@ -3,6 +3,9 @@ import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
+/** JUnits of for some of the methods in card class
+ * @author 404 Bits Not Found(Henry Lai, Henry Fan, Gabby Kim, Bill Huynh)
+ */
 public class CardTest {
     @Test
     public void testLine(){

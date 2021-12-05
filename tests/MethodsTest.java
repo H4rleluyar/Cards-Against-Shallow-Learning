@@ -14,6 +14,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/** JUnits of for some of the methods
+ * @author 404 Bits Not Found(Henry Lai, Henry Fan, Gabby Kim, Bill Huynh)
+ */
 public class MethodsTest {
 
     //initialize everything

@@ -10,6 +10,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 
+/** Responsible for the Gui of the Game
+ * @author 404 Bits Not Found(Henry Lai, Henry Fan, Gabby Kim, Bill Huynh)
+ */
 public class View extends JFrame {
     BlockingQueue<Message> queue;
 
