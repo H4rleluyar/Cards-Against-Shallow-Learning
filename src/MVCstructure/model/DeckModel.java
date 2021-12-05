@@ -6,16 +6,24 @@ import java.util.Random;
 
 public class DeckModel {
 	private ArrayList<CardModel> currentDeck;   // stores a deck as an arraylist
-	/*
+	/**
 	 * @param array list of Cards called currentDeck
 	 */
 	public DeckModel(){
 		currentDeck = new ArrayList<>();
 	}
 
-	// setter and getter for number of cards in a deck
+
+	/**
+	 *
+	 * @return to get the number of cards in the deck
+	 */
 	public int getNumOfCards() { return currentDeck.size(); }
 
+	/**
+	 *
+	 * @return an ArrayList holding the cards
+	 */
 	public ArrayList<CardModel> getCards(){
 		return (ArrayList<CardModel>) currentDeck.clone();
 	}

@@ -83,6 +83,7 @@ public class MethodsTest {
 
     }
 
+
     @Test
     public void testDealCardsTest(){ //testing dealCard method in controller class
         CardModel testing1 = new CardModel("This is the first white card");
