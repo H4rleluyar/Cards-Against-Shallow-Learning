@@ -299,9 +299,9 @@ public class Controller {
 
     /**
      * Loads the given or default text file to their respective white or black card decks.
-     * @param fileDir
-     * @param whiteDeck
-     * @param blackDeck
+     * @param fileDir the file/deck to be used
+     * @param whiteDeck the whitedeck that will be filled with card from file
+     * @param blackDeck the blackdeck that will be filled with card from file
      * @return true
      * 		if fileDir completely loaded
      */
