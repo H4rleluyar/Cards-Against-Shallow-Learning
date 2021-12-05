@@ -46,11 +46,21 @@ public class View extends JFrame {
 
     Font font;
 
+    /** Method to indent A String a number of int spaces
+     *
+     * @param str the String
+     * @param spaces the number of spaces
+     * @return the String that is indented
+     */
     public String indentLine(String str, int spaces) {
         return str.indent(spaces);
     }
 
 
+    /** Represent the Gui/How the Game will look
+     *
+     * @param queue the Blocking queue
+     */
     public View(BlockingQueue<Message> queue) {
         this.queue = queue;
         this.setSize(1280, 720);
@@ -358,6 +368,12 @@ public class View extends JFrame {
     }
 
     //methods to be used in controller
+
+    /** Update Player's information in GUI
+     *
+     * @param nameList the list of Player's name
+     * @param score    the list of Player's score
+     */
     public void updatePlayersInView(ArrayList<String> nameList, ArrayList<String> score){
         playerNameTextField.setText("");
         String scoreBoardStr = "------Score Board------\n";
@@ -368,16 +384,39 @@ public class View extends JFrame {
         playerScoreBoard.setText(scoreBoardStr);
     }
 
-    public void disableAddPlayerInView() { addPlayerButton.setEnabled(false);  } //playerNameTextField.setEnabled(false); Bill -- put this out  so i can test remove button
+    /** Disable the Add Player Button in GUI
+     *
+     */
+    public void disableAddPlayerInView() { addPlayerButton.setEnabled(false);  }
 
+    /** Enable the Add Player Button in GUI
+     *
+     */
     public void enableAddPlayerInView() { addPlayerButton.setEnabled(true);}
 
+    /** Disable the Remove Player Button in GUI
+     *
+     */
     public void disableRemovePlayerInView() { removePlayerButton.setEnabled(false);}
 
+    /** Disable the Load File/Deck Button in GUI
+     *
+     */
     public void disableLoadFileButtonInView() { loadFileButton.setEnabled(false); fileDirTextField.setEnabled(false);}
 
+    /** Enable the Start Button in GUI
+     *
+     * @param enable to set the start button to be clickable
+     */
     public void enableStartGameInView(boolean enable) { startGameButton.setEnabled(enable); }
 
+    /** Enable the game's information in GUI
+     *
+     * @param currentPlayer Name of the current player
+     * @param currentCzarName name of the current czar
+     * @param blackCardDescription the black card's information
+     * @param handArr the player's hand
+     */
     public void startAGameInView(String currentPlayer, String currentCzarName, String blackCardDescription, ArrayList<String> handArr){
         System.out.println("started");
         currCzarTextArea.setText(currentCzarName+"\nis the Czar");
@@ -397,6 +436,11 @@ public class View extends JFrame {
         updateCurPlayerInView(currentPlayer);
         updateHandInView(handArr);
     }
+
+    /** Update the player's hand in GUI
+     *
+     * @param handArr the player's hand
+     */
     public void updateHandInView(ArrayList<String> handArr){
         for(int i = 0; i < 5; i++) {
             handTextAreaArr.get(i).setVisible(false);
@@ -410,12 +454,28 @@ public class View extends JFrame {
         }
     }
 
+    /** Update the Black Card in GUI
+     *
+     * @param cardDescription the description of the black card
+     */
     public void updateBlackCardInView(String cardDescription){ blackCardTextArea.setText(cardDescription);}
 
+    /** Update which player is the Czar in GUI
+     *
+     * @param name the name of the Czar
+     */
     public void updateCzarInView(String name){currCzarTextArea.setText(name+"\nis the Czar");}
 
+    /** Update which player's turn it is in GUI
+     *
+     * @param name the name of the Player
+     */
     public void updateCurPlayerInView(String name) { curPlayer.setText(name + "'s turn");}
 
+    /** Update the chosen card Area in the GUI
+     *
+     * @param chosenArr the chosen cards that the player pick
+     */
     public void updateChosenCardInView(ArrayList<String> chosenArr){
         System.out.println(chosenArr.toString());
         for(int i = 0; i < chosenCardsTextAreaArr.size(); i++)
@@ -427,24 +487,36 @@ public class View extends JFrame {
         }
     }
 
+    /** Disable the Player's hand button in GUI
+     *
+     */
     public void disableHandButtonsInView(){
         for(int i = 0; i < 5; i++){
             handButtonArr.get(i).setEnabled(false);
         }
     }
 
+    /** Enable the Player's hand button in GUI
+     *
+     */
     public void enableHandButtonsInView(){
         for(int i = 0; i < 5; i++){
             handButtonArr.get(i).setEnabled(true);
         }
     }
 
+    /** Hide the Chosen Card Button in GUI
+     *
+     */
     public void hideChosenButtonsInView(){
         for(int i = 0; i < 5; i++){
             chosenButtonArr.get(i).setVisible(false);
         }
     }
 
+    /** Show the Chosen Card Button in GUI
+     *
+     */
     public void showChosenButtonsInView(){
         for(int i = 0; i < 5; i++){
             if(chosenCardsTextAreaArr.get(i).isVisible())
@@ -452,23 +524,42 @@ public class View extends JFrame {
         }
     }
 
+    /** Enable the Next Player Button in GUI
+     *
+     */
     public void enableDoNextPlayerInView(){nextPlayerButton.setEnabled(true);}
 
+    /** Update the Winning Player's in GUI at czar's area
+     *
+     * @param winnerName The player that is the winner
+     */
     public void endGameInView(String winnerName){
         currCzarTextArea.setText("Winner is\n" + winnerName);
     }
 }
 
+/** Responsible for limiting the text field to 15 chracter
+ *
+ */
 class JTextFieldLimit extends PlainDocument {
     private int limit;
+
+    /**Respresent the Character limit
+     *
+     * @param limit the character's limit
+     */
     JTextFieldLimit(int limit) {
         super();
         this.limit = limit;
     }
-    JTextFieldLimit(int limit, boolean upper) {
-        super();
-        this.limit = limit;
-    }
+
+    /**
+     *
+     * @param offset
+     * @param str
+     * @param attr
+     * @throws BadLocationException
+     */
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if (str == null)
             return;
