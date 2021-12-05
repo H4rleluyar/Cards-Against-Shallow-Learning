@@ -553,13 +553,6 @@ class JTextFieldLimit extends PlainDocument {
         this.limit = limit;
     }
 
-    /**
-     *
-     * @param offset
-     * @param str
-     * @param attr
-     * @throws BadLocationException
-     */
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if (str == null)
             return;
