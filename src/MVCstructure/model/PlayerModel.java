@@ -95,13 +95,16 @@ public class PlayerModel {
     }
 
     /**
-            *setCzar to set the MVCstructure.Player as the czar
+     *setCzar to set the MVCstructure.Player as the czar
     */
     public void setCzar(boolean czar) {
         this.czar = czar;
     }
 
-    //prints what the player have in hand
+    /**
+     *
+     * @return String that is formatted to look a certain way
+     */
     public String toString(){
         String retStr = getName();
         retStr += "'s hand:\n";

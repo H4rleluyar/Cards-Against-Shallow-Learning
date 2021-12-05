@@ -15,7 +15,6 @@ public class DeckModel {
 
 
 	/**
-	 *
 	 * @return to get the number of cards in the deck
 	 */
 	public int getNumOfCards() { return currentDeck.size(); }
@@ -28,13 +27,27 @@ public class DeckModel {
 		return (ArrayList<CardModel>) currentDeck.clone();
 	}
 
-	// adds a card to the current Deck (one by one, or as a list)
+	/**
+	 * 	adds a card to the current Deck (one by one)
+ 	 */
 	public void addCard(CardModel c) { this.currentDeck.add(c); }
+
+	/**
+	 *
+	 * @param cards the array list of cards to add to deck
+	 */
 	public void addCard(ArrayList<CardModel> cards) { currentDeck.addAll(cards); }
 
-	// removes a card from the current Deck
+	/**
+	 *
+	 * @param index to remove a card at a certain index
+	 */
 	public void removeCard(int index) { this.currentDeck.remove(index);}
 
+	/**
+	 *
+	 * @return String formatted in a certain way
+	 */
 	public String toString(){
 		String retStr = "";
 		for(int i = 0; i < currentDeck.size(); i++){
@@ -43,12 +56,17 @@ public class DeckModel {
 		return retStr;
 	}
 
-	//use this to get cards from ArrayList, not a clone version
+	/**
+	 *
+	 * @return an ArrayList of cardmodel which is the Deck
+	 */
 	public ArrayList<CardModel> getCard(){
 		return currentDeck;
 	}
 
-	/* *shiffleDeck, enter the deck that you want to shuffle */
+	/**
+	 * shuffleDeck, to shuffle the Deck
+	 */
 	public void shuffleDeck(){
 		Collections.shuffle(currentDeck, new Random()); }
 
