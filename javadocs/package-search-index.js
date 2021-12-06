@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"MVCstructure"},{"l":"MVCstructure.controller"},{"l":"MVCstructure.model"},{"l":"MVCstructure.view"}];updateSearchResults();
